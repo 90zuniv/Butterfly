@@ -7,6 +7,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<EnglishStudyPage />} />
+        <Route path='src/pages/study/studyPage.js' element={<studyPage />} />
       </Routes>
     </BrowserRouter>
   );

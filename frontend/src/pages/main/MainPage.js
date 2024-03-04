@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Link 임포트 추가
 
 function EnglishStudyPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
 
   const banners = [
     '/img/banner0.png',
-    '/img/banner01.png', // 수정된 부분: public 폴더 내의 이미지 경로
+    '/img/banner01.png',
     // banner1,
     // banner2
   ];
@@ -17,17 +19,17 @@ function EnglishStudyPage() {
     return () => clearInterval(interval);
   }, [banners.length]);
 
-  const showBanner = (index) => {
-    setCurrentIndex(index);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
 
-  const showNextBanner = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-  };
+    window.addEventListener('scroll', handleScroll);
 
-  const showPrevBanner = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + banners.length) % banners.length);
-  };
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -58,19 +60,21 @@ function EnglishStudyPage() {
 
         .study_1 {
           text-align: center;
-          margin: 10em;
-          background-image: url(../img/_Youtube_background.png);
-          background-size: 100%;
-          background-repeat: no-repeat;
-          height: 690px;
+          min-height: 690px; /* 수정된 부분 */
           position: relative;
-          overflow: hidden; /* 수정된 부분: 스크롤 막기 */
         }
 
-        .study_1_text {
-          margin-top: 20px;
-          overflow-y: scroll; /* 수정된 부분: 텍스트가 넘칠 때 스크롤 나타나도록 */
-          max-height: 200px; /* 수정된 부분: 최대 높이 지정 */
+        .study_1 p {
+          font-size: 45px;
+          color: #111111;
+          opacity: ${scrollY < 400 ? 1 : 0}; /* 400은 스크롤 위치에 따라 조절 가능 */
+          transition: opacity 0.5s ease;
+          transform: translateY(${scrollY * -0.1}%); /* 스크롤 위치에 따른 이동 */
+        }
+
+        .study_1 p:last-child {
+          opacity: ${scrollY < 400 ? 1 : 0}; /* 400은 스크롤 위치에 따라 조절 가능 */
+          transition: opacity 0.5s ease;
         }
 
         .btn_studdy {
@@ -162,26 +166,28 @@ function EnglishStudyPage() {
       <div className="banner">
         <img src={banners[currentIndex]} alt="banner image" />
         <div className="button-container">
-          <button className="button prevButton" onClick={showPrevBanner}>&lt;</button>
-          <button className="button nextButton" onClick={showNextBanner}>&gt;</button>
+          <button className="button prevButton" onClick={() => setCurrentIndex((prevIndex) => (prevIndex - 1 + banners.length) % banners.length)}>&lt;</button>
+          <button className="button nextButton" onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length)}>&gt;</button>
         </div>
         <div className="dots">
           {banners.map((_, index) => (
             <span
               key={index}
               className={`dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => showBanner(index)}
+              onClick={() => setCurrentIndex(index)}
             ></span>
           ))}
         </div>
       </div>
       <div className="study_1">
-        <div className="study_1_text">
-          영상 시청 후 Ai 튜터와 말하는 서비스
-          Butterfly가 함께 합니다. 영어 실력을 향상시켜 보세요.
-          링크 복사 후 붙혀 넣으면 AI가 인식 후 그에 맞는 영상으로 대화를 시작합니다!
-          영어를 재미있게 배워보세요!
-        </div>
+        <p>영상 시청 후 Ai 튜터와</p>
+        <p>말하는 서비스</p>
+        <p>Butterfly가 함께 합니다.</p>
+        <p>영어 실력을 향상시켜 보세요.</p>
+        <p>링크 복사 후 붙혀 넣으면</p>
+        <p>AI가 인식 후 그에 맞는</p>
+        <p>영상으로 대화를 시작합니다!</p>
+        <p>영어를 재미있게 배워보세요!</p>
       </div>
       <div className="boka">
         <img src="../img/boka.png" alt="banner" /> {/* 수정된 부분: 상대 경로를 사용하여 import한 이미지 */}
@@ -190,7 +196,8 @@ function EnglishStudyPage() {
         <div className="ContentImg">
           <div className="ContentFlex">
             <h1 className="banner_title">Butterfly와 함께, <br />배워봐요!</h1>
-            <button className="btn_studdy">배우러 가기</button>
+            {/* 버튼을 Link 컴포넌트로 감싸서 클릭 시 studyPage로 이동하도록 함 */}
+            <Link to="/studyPage" className="btn_studdy">배우러 가기</Link>
           </div>
         </div>
       </div>
