@@ -1,5 +1,10 @@
 import openai
 
+from youtube_transcript_api import youtube
+
+
+youtube('F8f_Tobdu6o')
+
 scene_file= "Butterfly/text/caption_.txt"
 voice_manual_file= "Butterfly/text/text_manual.txt"
 voice_auto_file= "Butterfly/text/text_auto.txt"
