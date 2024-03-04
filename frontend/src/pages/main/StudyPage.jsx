@@ -5,7 +5,7 @@ import { useState } from "react";
 // import {  useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-// 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
+
 function StudyPage() {
 
   const axios = require('axios');
