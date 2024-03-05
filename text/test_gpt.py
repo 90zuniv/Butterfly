@@ -1,13 +1,13 @@
 import openai
 
-from youtube_transcript_api import youtube
+from youtub import youtube
 
-
+# youtube 자막 텍스트 파일로 저장
 youtube('F8f_Tobdu6o')
 
-scene_file= "Butterfly/text/caption_.txt"
-voice_manual_file= "Butterfly/text/text_manual.txt"
-voice_auto_file= "Butterfly/text/text_auto.txt"
+scene_file= "caption_.txt"
+voice_manual_file= "text_manual.txt"
+voice_auto_file= "text_auto.txt"
 
 # scene detection
 with open(scene_file, 'r') as text:
@@ -23,12 +23,11 @@ with open(voice_manual_file, 'r') as text:
 with open(voice_auto_file, 'r') as text:
     voice_auto_text= text.readlines()
 
-
 # GPT
-openai.api_key = "api key"
+openai.api_key = "api-key"
 
 response = openai.chat.completions.create(
-    model="gpt-4",
+    model="gpt-4-0125-preview",
     messages=[
         {"role": "system", "content": f"""
          너는 어떠한 컨텐츠의 내용을 이해해서 그 내용이나 줄거리에 대한 대화를 유도하는 선생님이야.
@@ -44,8 +43,9 @@ response = openai.chat.completions.create(
          """},
         {"role": "user", "content": ""},
         {"role": "assistant", "content": "영상 어땠어?"},
-        {"role": "user", "content": "굉장히 흥미로웠어!"}
-    ]
+        {"role": "user", "content": "작가의 창의성을 엿볼 수 있었어!"}
+    ],
+    temperature= 0.2
 )
 
 # print(response['choices'][0]['message']['content'])
