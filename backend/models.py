@@ -1,14 +1,23 @@
-from sqlalchemy import Column, TEXT, INT, BIGINT
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, TEXT, INT, BIGINT, Integer, String
+from database import Base
 
-Base = declarative_base()
+class User(Base):
+    __tablename__ = "users"
 
-class Test(Base):
-    __tablename__ = "test"
-
-    id = Column(BIGINT, nullable=False, autoincrement=True, primary_key=True)
-    name = Column(TEXT, nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    name = Column(String(50), unique=True)
     number = Column(INT, nullable=False)
+
+class Chatting(Base):
+    __tablename__ = "chatting"
+
+    id = Column(Integer, primary_key=True, index=True)
+    # date = Column(String, datetime)
+    thumbnail = Column(String(100))
+    content = Column(String(100))
+    user_id = Column(Integer)
+
+
 # CREATE TABLE `Users` (
 #     `mem_seq` INT NOT NULL AUTO_INCREMENT,
 #     `name` VARCHAR(255) NULL,
