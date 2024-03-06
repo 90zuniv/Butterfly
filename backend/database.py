@@ -11,8 +11,8 @@ engine = create_engine(DB_URL)
 
 SessionLocal = sessionmaker(autocomit=False, autoflush=False, bind = engine)
 
-Base = declarative_base
-
+Base = declarative_base()
+print(Base)
 # class engineconn:
 
 #     def __init__(self):
