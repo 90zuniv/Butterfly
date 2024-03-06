@@ -1,21 +1,31 @@
-from sqlalchemy import Column, TEXT, INT, BIGINT, Integer, String
+from sqlalchemy import Column, TEXT, INT, BIGINT, Integer, String, Boolean, Float
 from database import Base
 print(Base)
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50), unique=True)
-    number = Column(INT, nullable=False)
+    email = Column(String(50), unique=True)
+    password = Column(String(50))
+
 
 class Chatting(Base):
     __tablename__ = "chatting"
 
     id = Column(Integer, primary_key=True, index=True)
-    # date = Column(String, datetime)
+    date = Column(String(50))
     thumbnail = Column(String(100))
     content = Column(String(100))
     user_id = Column(Integer)
+
+class Content(Base):
+    __tablename__ = "content"
+    id = Column(Integer, primary_key=True, index=True)
+    content_link = Column(String(50))
+    content_thumbnail = Column(String(50))
+
+
 
 
 # CREATE TABLE `Users` (

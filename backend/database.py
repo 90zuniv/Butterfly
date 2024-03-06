@@ -9,14 +9,14 @@ DB_URL = 'mysql+pymysql://root:0000@localhost:3306/Butterfly'
 
 engine = create_engine(DB_URL)
 
-SessionLocal = sessionmaker(autocomit=False, autoflush=False, bind = engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind = engine)
 
 Base = declarative_base()
-print(Base)
+
 # class engineconn:
 
 #     def __init__(self):
-#         self.engine = create_engine(DB_URL, pool_recycle = 500)
+#         self.engine = create_engine(DB_URL, pool_recycle = 500) 
 
 #     def sessionmaker(self):
 #         Session = sessionmaker(bind=self.engine)
