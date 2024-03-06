@@ -1,6 +1,29 @@
 import openai
-
 from youtub import youtube
+import os, sys
+
+youtube_url= input()
+
+# 현재파일 절대경로
+current_path= os.path.abspath(__file__)
+# 영상/썸네일 및 프레임 이미지 저장 path
+yt_path= os.path.join(current_path,'output/yt_dlp/')
+fr_path= os.path.join(current_path,'output/frame/')
+
+
+# yt-dlp (영상 및 썸네일 저장)
+sys.path.append('C:/Users/201-24/nyj/yt_dlp/')
+terminal_command = f"yt-dlp --write-thumbnail --write-subs -P {yt_path} {youtube_url}" 
+os.system(terminal_command)
+
+# scenedetect (frame별 타임코드csv와 이미지저장)
+sys.path.append('C:/Users/201-24/nyj/pyscenedetect/')
+terminal_command = f"scenedetect -i {yt_path}/*.mp4 -o {fr_path} list-scenes save-images" 
+os.system(terminal_command)
+
+# tag2text
+sys.path.append('C:/Users/201-24/nyj/recognize-anything/')
+import inference_tag2text_test
 
 # youtube 자막 텍스트 파일로 저장
 youtube('F8f_Tobdu6o')
