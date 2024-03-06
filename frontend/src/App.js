@@ -9,6 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<EnglishStudyPage />} />
+        <Route path='src/pages/study/studyPage.js' element={<studyPage />} />
         <Route path='/test' element={<Test />} />
       </Routes>
     </BrowserRouter>
