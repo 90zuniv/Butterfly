@@ -1,19 +1,35 @@
-from fastapi import FastAPI, Depends, Path, HTTPException
+from fastapi import FastAPI, Depends, Path, HTTPException, status
 from pydantic import BaseModel
-from database import engineconn
-from models import Test
+from typing import Annotated
+from database import engine, SessionLocal
+import models
+from sqlalchemy.orm import Session
 
 app = FastAPI()
+models.Base.metadata.create_all(bind=engine)
 
-engine = engineconn()
-session = engine.sessionmaker()
+class ChattingBase(BaseModel):
+    content : str
+    thumbnail : str
+    user_id : int
 
-
-class Item(BaseModel):
+class UserBase(BaseModel):
     name : str
-    number : int
 
-@app.get("/")
-async def first_get():
-    example = session.query(Test).all()
-    return example
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
+@app.post("/users/", status_code=status.HTTP_201_CREATED)
+async def create_user(user:UserBase, db:db_dependency):
+        db_user = models.User(**user.dict())
+        db.add(db_user)
+        db.commit()
+
+
+
