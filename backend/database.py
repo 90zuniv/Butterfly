@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 
-DB_URL = 'mysql+pymysql://root:0000@localhost:3306/Butterfly'
+DB_URL = 'mysql+pymysql://root:0000@localhost:3306/butterfly'
 
 engine = create_engine(DB_URL)
 
