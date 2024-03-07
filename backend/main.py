@@ -6,6 +6,11 @@ import models
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi.routing import APIRouter
+
+
+
+
 app = FastAPI()
 
 origins = [
@@ -15,7 +20,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credential = True,
+    # allow_credential = True,
     allow_methods = ['*'],
     allow_headers = ['*'],
 
@@ -25,7 +30,7 @@ models.Base.metadata.create_all(bind=engine)
 
 
 class ChattingBase(BaseModel):
-    content : str
+    story : str
     thumbnail : str
     user_id : int
 
@@ -35,8 +40,8 @@ class UserBase(BaseModel):
     password : str
 
 class ContentBase(BaseModel):
-    youtube_link : str
-    youtube_thumbnail : str
+    content_id : str
+    content_thumbnail : str
 
 class ContentModel(ContentBase):
     id : int
