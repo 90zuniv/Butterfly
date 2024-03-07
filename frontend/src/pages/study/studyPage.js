@@ -1,19 +1,35 @@
 import React, { Fragment, useState } from 'react';
+import ReactPlayer from 'react-player/youtube';
 import { Link } from 'react-router-dom';
 
 const playIconUrl = "/img/Playback.png";
+const closeButtonUrl = "/img/CloseBtn.png";
 
 function StudyPage() {
-  const [startIndex, setStartIndex] = useState(0);
-  const totalVideos = 4; // 예시로 4개의 인기 영상을 가정합니다.
+  const totalVideos = 8; // 예시로 8개의 인기 영상을 가정
 
+  const [videoUrl, setVideoUrl] = useState('');
+  const [showVideo, setShowVideo] = useState(false);
+  const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
 
-  const moveLeft = () => {
-    setStartIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : totalVideos - 1));
+  const handleChange = (event) => {
+    setVideoUrl(event.target.value);
   };
 
-  const moveRight = () => {
-    setStartIndex((prevIndex) => (prevIndex < totalVideos - 1 ? prevIndex + 1 : 0));
+  const handleSearch = () => {
+    setShowVideo(true);
+  };
+
+  const handleClose = () => {
+    setShowVideo(false);
+  };
+
+  const handlePrevSlide = () => {
+    setSlideIndex((prevIndex) => (prevIndex === 0 ? totalVideos - 4 : prevIndex - 1));
+  };
+
+  const handleNextSlide = () => {
+    setSlideIndex((prevIndex) => (prevIndex === totalVideos - 4 ? 0 : prevIndex + 1));
   };
 
   return (
@@ -21,6 +37,27 @@ function StudyPage() {
       <style>
         {`
           /* CSS 스타일 */
+
+          /* 이전 버튼 애니메이션 */
+          @keyframes slideLeft {
+            from {
+              transform: translateX(100%);
+            }
+            to {
+              transform: translateX(0);
+            }
+          }
+
+          /* 다음 버튼 애니메이션 */
+          @keyframes slideRight {
+            from {
+              transform: translateX(-100%);
+            }
+            to {
+              transform: translateX(0);
+            }
+          }
+
           .banner img {
             width: 100%;
           }
@@ -61,7 +98,7 @@ function StudyPage() {
             margin-right: 10px;
           }
 
-          .popular_videos {
+          .best {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -72,14 +109,22 @@ function StudyPage() {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            transition: transform 0.5s ease;
-            transform: translateX(-${startIndex * 290}px);
             width: 98%;
+            overflow: hidden; /* 넘치는 부분 감추기 */
+            position: relative; /* 애니메이션을 위한 상대 위치 설정 */
+          }
+
+          .video-list-animation {
+            animation: slideLeft 0.5s forwards; /* 애니메이션 적용 */
+          }
+
+          .video-list.reverse {
+            flex-direction: row-reverse;
           }
 
           .video-thumbnail {
-            width: 270px;
-            height: 350px;
+            width: 98%;
+            height: auto;
             background-color: #efefef;
             margin-right: 55px;
             margin-left: 55px;
@@ -92,8 +137,8 @@ function StudyPage() {
           }
 
           .video-thumbnail img {
-            width: 240px;
-            height: 130px;
+            width: 100%;
+            height: auto;
           }
 
           .video-thumbnail h3, .video-thumbnail p {
@@ -123,8 +168,77 @@ function StudyPage() {
             font-size: 20px;
             cursor: pointer;
           }
+
+          .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 80%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+          }
+
+          .modal-content .video-player {
+            position: relative;
+            padding-top: 56.25%;
+          }
+
+          .modal-content .video-player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+
+          .go-to-chat-button {
+            text-align: center;
+            margin-top: 20px;
+          }
+
+          .go-to-chat-button a {
+            font-size: 24px;
+            color: #FF7F50;
+            text-decoration: none;
+            border: 2px solid #FF7F50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+          }
+
+          .go-to-chat-button a:hover {
+            background-color: #FF7F50;
+            color: #ffffff;
+          }
+
+          .close-button {
+            position: absolute;
+            top: 35px;
+            right: 50px;
+            width: 30px;
+            height: 30px;
+            background-image: url(${closeButtonUrl});
+            background-size: cover;
+            cursor: pointer;
+          }
         `}
       </style>
+      
       <div className="banner">
         <img src="/img/StudyBanner.jpeg" alt="베너 이미지"/>
       </div>
@@ -132,33 +246,61 @@ function StudyPage() {
         <h2 style={{ textAlign: 'center' }}>🌈️ 유튜브 링크를 넣어주세요 🌈️</h2>
       </div>
       <div className="search">
-        <input type="text" placeholder="링크를 입력하세요" className='SearchBox'/>
-        <button className='SearchBtn'>검색</button>
+        <input 
+          type="text" 
+          placeholder="링크를 입력하세요" 
+          className='SearchBox'
+          value={videoUrl}
+          onChange={handleChange}
+        />
+        <button className='SearchBtn' onClick={handleSearch}>검색</button>
       </div>
-      <div className="popular_videos">
-        <h2 style={{ textAlign: 'center'}}>⭐️ 인기영상 ⭐️</h2>
-        <div className="video-list">
-          {Array.from({ length: totalVideos * 2 }, (_, index) => {
-            const videoIndex = index % totalVideos; // 인덱스를 요소의 실제 인덱스로 변환합니다.
+      <div className='best'>
+        <h2 style={{ textAlign: 'center'}}>🔥인기영상🔥</h2>
+        <div className={`video-list ${slideIndex !== 0 ? 'video-list-animation' : ''}`}>
+          {Array.from({ length: 4 }, (_, index) => {
+            const videoIndex = (index + slideIndex) % totalVideos;
             return (
               <div className="video-thumbnail" key={index}>
-                <img src="썸네일 URL" alt="썸네일" />
+                <img src={`썸네일 URL ${videoIndex}`} alt="썸네일" />
                 <h3>영상 제목</h3>
                 <p>타이틀</p>
                 <div className='Playback_'>
-                <button style={{ border: 'none'}}>시청하기
-                <img src={playIconUrl} alt="재생" style={{ width: '25px', height: '25px', margin: '0px 10px'}}/>
-                </button>
+                  <button style={{ border: 'none'}}>시청하기
+                    <img src={playIconUrl} alt="재생" style={{ width: '25px', height: '25px', margin: '0px 10px'}}/>
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
         <div className="button-container">
-          <button onClick={moveLeft}>&lt;</button>
-          <button onClick={moveRight}>&gt;</button>
+          <button onClick={handlePrevSlide}>{'<'}</button>
+          <button onClick={handleNextSlide}>{'>'}</button>
         </div>
       </div>
+      
+      {showVideo && (
+        <div className="modal" onClick={handleClose}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="close-button" onClick={handleClose}></div>
+            <h2 style={{ textAlign: 'center'}}>⭐️ Video ⭐️</h2>
+            <div className="video-list">
+              <div className="video-thumbnail">
+                <div className="video-player">
+                  <ReactPlayer url={videoUrl} controls={true} width="100%" height="100%" />
+                </div>
+              </div>
+            </div>
+            <div className="go-to-chat-button">
+              <Link to="/ChatPage">
+                채팅하러 가기
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
     </Fragment>
   );
 }
