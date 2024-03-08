@@ -6,28 +6,38 @@ import os, sys
 youtube_url= input()
 
 # 현재파일 절대경로
-current_path= os.path.abspath(__file__)
+# current_path= os.path.abspath(__file__)
 
 # 영상/썸네일 및 프레임 이미지 저장 path
-yt_path= os.path.join(current_path,'output/yt_dlp/')
-fr_path= os.path.join(current_path,'output/frame/')
+# yt_path= os.path.join(current_path,'output/yt_dlp/')
+# fr_path= os.path.join(current_path,'output/frame/')
+yt_path= './output/yt_dlp/'
+fr_path= './output/frame/'
 
-# yt-dlp (영상 및 썸네일 저장)
-sys.path.append('C:/Users/201-24/nyj/yt_dlp/')
-terminal_command = f"yt-dlp --write-thumbnail --write-subs -P {yt_path} {youtube_url}" 
+# yt-dlp (영상 및 썸네일 저장 - 이름지정)
+print('yt-dlp start')
+# sys.path.append('C:/Users/201-24/nyj/yt_dlp/') # 경로변경
+terminal_command = f"yt-dlp --write-thumbnail --write-subs -P {yt_path} -o test.%(ext)s {youtube_url}"
+# yt-dlp --write-thumbnail --write-subs -P output/yt_dlp/ -o test.%(ext)s https://www.youtube.com/wa 
 os.system(terminal_command)
 print('yt_dlp success')
 
 # scenedetect (frame별 타임코드csv와 이미지저장)
-sys.path.append('C:/Users/201-24/nyj/scenedet/pyscenedetect/')
-terminal_command = f"scenedetect -i {yt_path}/*.mp4 -o {fr_path} list-scenes save-images" 
+print('scenedetect start')
+# sys.path.append('C:/Users/201-24/nyj/scenedet/pyscenedetect/')
+terminal_command = f"scenedetect -i {yt_path}/*.mp4 -o {fr_path} list-scenes save-images"
+# scenedetect -i output/yt_dlp/*.mp4 -o output/frame/ list-scenes save-images 
 os.system(terminal_command)
 print('scenedetect success')
 
 # tag2text
-sys.path.append('C:/Users/201-24/nyj/recognize-anything/')
-from inference_tag2text_test import tagtotext
-tagtotext(fr_path)
+print('tag2text start')
+# sys.path.append('C:/Users/201-24/nyj/recognize-anything/')
+import inference_tag2text_test
+inference_tag2text_test.tagtotext(fr_path)
+# terminal_command = f"python inference_tag2text_test.py"
+# os.system(terminal_command)
+print('tag2text success')
 
 # youtube 자막 텍스트 파일로 저장
 youtube(youtube_url)
@@ -65,7 +75,7 @@ response = openai.chat.completions.create(
          1. 위 세 가지 글은 모두 하나의 컨텐츠에 대한 내용이야.
          2. 세 가지 글을 조합하여 어떤 줄거리 및 내용을 가진 컨텐츠인지 파악해.
          3. 컨텐츠 내용에 대한 대화를 친구와 수다떨듯이 이어가면 돼.
-         4. 파악한 내용에 대해서는 언급하지 마.
+         4. 파악한 내용중에서는 조합한 내용을 바탕으로 전체적으로 어떤 컨텐츠 인지만 처음에 언급해줘.
          5. 모든 말은 질문으로 끝나게 하여 대답을 유도하도록 해.
          """},
         {"role": "user", "content": ""},
@@ -77,3 +87,4 @@ response = openai.chat.completions.create(
 
 # print(response['choices'][0]['message']['content'])
 print(response.choices[0].message.content)
+

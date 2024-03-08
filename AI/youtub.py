@@ -2,7 +2,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import JSONFormatter
 
 def youtube(youtube_url):
-
+    print("youtube start")
     # youtube_id= 'F8f_Tobdu6o'
     # 유튜브 해당 영상에서 공유 버튼 링크 기준
     youtube_id= youtube_url.split('?')[0].split('/')[-1]
@@ -68,3 +68,4 @@ def youtube(youtube_url):
     #     json_file.write(json_formatted)
     
 
+# youtube('https://youtu.be/E9M0SAlHY7Y?si=6e7Bh9gTPQwaIaOM')
