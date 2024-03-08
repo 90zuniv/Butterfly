@@ -2,9 +2,13 @@
 import openai
 import os
 from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
 
+load_dotenv()
 
-os.environ['OPENAI_API_KEY'] = ''
+KEY = os.getenv('yj_api')
+
+os.environ['OPENAI_API_KEY'] = '${KEY}'
 
 # openai.api_key = "api-key"
 a= ChatOpenAI(
@@ -13,4 +17,4 @@ a= ChatOpenAI(
     model_name='gpt-4-0125-preview',
 
 )
-print(a)
+print(KEY)

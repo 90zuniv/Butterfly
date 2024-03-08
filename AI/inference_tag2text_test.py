@@ -60,7 +60,7 @@ def tagtotext(path):
         caption.append(res[2])
         print('turn')
 
-    print('caption',caption)
+    # print('caption',caption)
 
     file_name = './caption.txt'
 
