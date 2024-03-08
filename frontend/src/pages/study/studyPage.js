@@ -6,11 +6,40 @@ const playIconUrl = "/img/Playback.png";
 const closeButtonUrl = "/img/CloseBtn.png";
 
 function StudyPage() {
+
   const totalVideos = 8; // 예시로 8개의 인기 영상을 가정
+  const videosToShow = 4; // 한 번에 보여질 비디오 수
 
   const [videoUrl, setVideoUrl] = useState('');
   const [showVideo, setShowVideo] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
+
+  const videoLinks = [
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
+    "https://youtu.be/4hbQRq-n12w?si=0-2yTB6t5aTutDpL",
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
+    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH"
+  ];
+  const videoThumbnails = [
+    "https://i.ytimg.com/vi/OVTL46impjA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAfQxlaxU7z1Ye7AY0JMQkKCBwwTA.jpg",
+    "https://example.com/thumbnail2.jpg",
+    // 나머지 썸네일 URL들...
+  ];
+  
+  const videoTitles = [
+    "영상 제목 1",
+    "영상 제목 2",
+    "영상 제목 3",
+    "영상 제목 4",
+    "영상 제목 5",
+    "영상 제목 6",
+    "영상 제목 7",
+    "영상 제목 8"
+  ];
 
   const handleChange = (event) => {
     setVideoUrl(event.target.value);
@@ -25,12 +54,18 @@ function StudyPage() {
   };
 
   const handlePrevSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex === 0 ? totalVideos - 4 : prevIndex - 1));
+    setSlideIndex((prevIndex) => (prevIndex === 0 ? totalVideos - 1 : prevIndex - 1));
   };
 
   const handleNextSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex === totalVideos - 4 ? 0 : prevIndex + 1));
+    setSlideIndex((prevIndex) => (prevIndex >= totalVideos - 1 ? 0 : prevIndex + 1));
   };
+
+  const getSlideStyle = (index) => ({
+    transform: `translateX(-${slideIndex * (100 / videosToShow)}%)`,
+    transition: 'transform 0.5s ease',
+    flex: `0 0 ${100 / videosToShow}%`,
+  });
 
   return (
     <Fragment>
@@ -98,7 +133,7 @@ function StudyPage() {
             margin-right: 10px;
           }
 
-          .best {
+          .popular-videos {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -123,7 +158,7 @@ function StudyPage() {
           }
 
           .video-thumbnail {
-            width: 98%;
+            width: 90%;
             height: auto;
             background-color: #efefef;
             margin-right: 55px;
@@ -134,6 +169,7 @@ function StudyPage() {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
           }
 
           .video-thumbnail img {
@@ -160,13 +196,16 @@ function StudyPage() {
           .button-container {
             display: flex;
             justify-content: space-between;
-            width: 270px;
-            margin-top: 10px;
+            width: 98%;
+            margin-top: -15vh;
+            z-index: 100;
           }
 
           button {
             font-size: 20px;
             cursor: pointer;
+            border: none;
+            background-color: #11111100;
           }
 
           .modal {
@@ -255,31 +294,32 @@ function StudyPage() {
         />
         <button className='SearchBtn' onClick={handleSearch}>검색</button>
       </div>
-      <div className='best'>
+      <div className='popular-videos'>
         <h2 style={{ textAlign: 'center'}}>🔥인기영상🔥</h2>
-        <div className={`video-list ${slideIndex !== 0 ? 'video-list-animation' : ''}`}>
-          {Array.from({ length: 4 }, (_, index) => {
-            const videoIndex = (index + slideIndex) % totalVideos;
-            return (
-              <div className="video-thumbnail" key={index}>
-                <img src={`썸네일 URL ${videoIndex}`} alt="썸네일" />
-                <h3>영상 제목</h3>
-                <p>타이틀</p>
-                <div className='Playback_'>
-                  <button style={{ border: 'none'}}>시청하기
-                    <img src={playIconUrl} alt="재생" style={{ width: '25px', height: '25px', margin: '0px 10px'}}/>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        <div className="video-list" style={{ display: 'flex', overflow: 'hidden' }}>
+          {/* 각 비디오 썸네일 렌더링 */}
+          {Array.from({ length: totalVideos }, (_, index) => (
+          <div
+          className="video-thumbnail"
+          key={index}
+          style={{ ...getSlideStyle(index), width: 310, height: 175 }}
+          onClick={() => {
+            setVideoUrl(videoLinks[index]);
+            setShowVideo(true);
+          }}
+        >
+              {/* 여기에 썸네일 이미지, 제목, 설명 등을 렌더링합니다. */}
+              <img src={videoThumbnails[index]} alt="썸네일 이미지" />
+              <h3>{videoTitles[(index + slideIndex) % totalVideos]}</h3>
+            </div>
+          ))}
         </div>
+        {/* 슬라이드 컨트롤 버튼 */}
         <div className="button-container">
           <button onClick={handlePrevSlide}>{'<'}</button>
           <button onClick={handleNextSlide}>{'>'}</button>
         </div>
       </div>
-      
       {showVideo && (
         <div className="modal" onClick={handleClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
