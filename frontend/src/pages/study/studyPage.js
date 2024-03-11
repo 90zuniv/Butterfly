@@ -15,30 +15,36 @@ function StudyPage() {
   const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
 
   const videoLinks = [
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
-    "https://youtu.be/4hbQRq-n12w?si=0-2yTB6t5aTutDpL",
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH",
-    "https://youtu.be/OVTL46impjA?si=05PIGMCRpo9DiOLH"
+    "https://youtu.be/QylMcP-q6-w?si=ReijqawRijsOtZ4n",
+    "https://youtu.be/EiCmnIaj4u8?si=ztIhNy09HHoyeC5Z",
+    "https://youtu.be/JY3rtZzsnHM?si=Pwl8JkrpzouKWFTy",
+    "https://youtu.be/v-PjgYDrg70?si=7i1uXo6zyv2KzrGs",
+    "https://youtu.be/wv5fWjD-mLI?si=3v1jX8alR4XvwgUR",
+    "https://youtu.be/AJsvGtGgI6M?si=dcIS90HgofKAz1bC",
+    "https://youtu.be/6W6MXVaSg1I?si=SotAyMhahMamhurW",
+    "https://youtu.be/plkOJzGgRlo?si=hqbo04WOKnpyml5M"
   ];
   const videoThumbnails = [
-    "https://i.ytimg.com/vi/OVTL46impjA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAfQxlaxU7z1Ye7AY0JMQkKCBwwTA.jpg",
-    "https://example.com/thumbnail2.jpg",
+    "/img/PSICK_SHOW.jpeg",
+    "/img/insodeout.jpeg",
+    "/img/annabelle.jpeg",
+    "/img/toyStort.png",
+    "/img/ddip.jpeg",
+    "/img/Elemental.png",
+    "/img/show.jpeg",
+    "/img/sonny.jpeg", 
     // 나머지 썸네일 URL들...
   ];
   
   const videoTitles = [
-    "영상 제목 1",
-    "영상 제목 2",
-    "영상 제목 3",
-    "영상 제목 4",
-    "영상 제목 5",
-    "영상 제목 6",
-    "영상 제목 7",
-    "영상 제목 8"
+    "[한글자막] JYP에게 게임을 묻다",
+    "[인사이드 아웃 2] 메인 예고편",
+    "[애나벨: 인형의 주인] 메인 예고편",
+    "[토이스토리] 메인 예고편",
+    "F는 이해불가",
+    "행복해지는 엘리멘탈 OST:[가사/해석/lyrics]",
+    "[한글자막] 크리스 프랫, 제임스 건에게 최고의 쇼에 초대된...",
+    "손홍만 인터뷰"
   ];
 
   const handleChange = (event) => {
@@ -197,15 +203,17 @@ function StudyPage() {
             display: flex;
             justify-content: space-between;
             width: 98%;
-            margin-top: -15vh;
+            margin-top: -20vh;
             z-index: 100;
           }
 
           button {
-            font-size: 20px;
+            font-size: 45px;
             cursor: pointer;
             border: none;
-            background-color: #11111100;
+            background-color: #ffffff;
+            width: 50px;
+            border-radius: 50%;
           }
 
           .modal {
@@ -302,14 +310,15 @@ function StudyPage() {
           <div
           className="video-thumbnail"
           key={index}
-          style={{ ...getSlideStyle(index), width: 310, height: 175 }}
+          style={{ ...getSlideStyle(index), width: 310, height: 290 }}
           onClick={() => {
-            setVideoUrl(videoLinks[index]);
+            const videoIndex = (index + slideIndex) % totalVideos;
+            setVideoUrl(videoLinks[videoIndex]);
             setShowVideo(true);
           }}
         >
               {/* 여기에 썸네일 이미지, 제목, 설명 등을 렌더링합니다. */}
-              <img src={videoThumbnails[index]} alt="썸네일 이미지" />
+              <img src={videoThumbnails[(index + slideIndex) % totalVideos]} alt="썸네일 이미지" style={{height: 260 }} />
               <h3>{videoTitles[(index + slideIndex) % totalVideos]}</h3>
             </div>
           ))}
