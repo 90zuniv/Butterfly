@@ -114,24 +114,19 @@ function StudyPage() {
           }
 
           .SearchBox {
-            width: 800px;
+            width: calc(800px - 50px);
             height: 50px;
-            border-radius: 10px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
             border: solid 5px #FF7F50;
             font-size: 24px;
             margin-bottom: 20px;
-            padding: 0px 15px 0px;
+            padding-left: 15px;
+            padding: 0px 15px;
           }
-
-          .SearchBtn {
-            height: 60px;
-            width: 100px;
-            border-radius: 10px;
-            border: solid 5px #FF7F50;
-            background-color: #FF7F50;
-            color: #ffffff;
-            font-size: 40px;
-            cursor: pointer;
+          .SearchBtn img {
+            width: 25px; /* Adjust as needed */
+            height: auto;
           }
 
           .SearchBtn::before {
@@ -299,12 +294,34 @@ function StudyPage() {
           className='SearchBox'
           value={videoUrl}
           onChange={handleChange}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') {
+              handleSearch();
+            }
+          }}
         />
-        <button className='SearchBtn' onClick={handleSearch}>검색</button>
+        <button
+        className='SearchBtn'
+        onClick={handleSearch} 
+        style={{
+          borderTopRightRadius: '5px',
+          borderBottomRightRadius: '5px',
+          borderTopLeftRadius: '0',
+          borderBottomLeftRadius: '0',
+          backgroundColor: '#FF7F50',
+          width:'100px',
+          height:'60px',
+          border:'none', }}>
+          <img src="/img/image 46.png"alt='Search'
+          style={{
+            margin: '15px'
+          }}
+          />
+          </button>
       </div>
       <div className='popular-videos'>
         <h2 style={{ textAlign: 'center'}}>🔥인기영상🔥</h2>
-        <div className="video-list" style={{ display: 'flex', overflow: 'hidden' }}>
+        <div className="video-list" style={{ display: 'flex', overflow: 'hidden', backgroundColor: '#4b5a7a', height: '450px', width: '100%'}}>
           {/* 각 비디오 썸네일 렌더링 */}
           {Array.from({ length: totalVideos }, (_, index) => (
           <div
@@ -316,6 +333,13 @@ function StudyPage() {
             setVideoUrl(videoLinks[videoIndex]);
             setShowVideo(true);
           }}
+          // onMouseEnter={(e) => {
+          //   e.target.style.transform = 'scale(3.0)'; // 마우스 hover시 크기 확대
+          //   e.target.style.transition = 'transform 0.3s ease';
+          // }}
+          // onMouseLeave={(e) => {
+          //   e.target.style.transform = 'scale(1)';
+          // }}
         >
               {/* 여기에 썸네일 이미지, 제목, 설명 등을 렌더링합니다. */}
               <img src={videoThumbnails[(index + slideIndex) % totalVideos]} alt="썸네일 이미지" style={{height: 260 }} />
@@ -353,5 +377,4 @@ function StudyPage() {
     </Fragment>
   );
 }
-
 export default StudyPage;
