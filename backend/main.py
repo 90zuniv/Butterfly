@@ -7,14 +7,18 @@ from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi.routing import APIRouter
+import os
+from dotenv import load_dotenv
 
+# from domain.chatting import chatting_router
 
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 app = FastAPI()
 
 origins = [
-    'http://localhost:3000'
+    os.environ["FRONTEND_URL"]
 ]
 
 app.add_middleware(
@@ -48,7 +52,6 @@ class ContentModel(ContentBase):
     class Config:
         from_attributes  = True
 
-
 def get_db():
     db = SessionLocal()
     try:
@@ -74,6 +77,7 @@ async def read_content(db:db_dependency, skip:int = 0, limit:int = 100):
     return content
 
 
+# app.include_router(chatting_router.router)
 
 @app.post("/chatting/", status_code=status.HTTP_201_CREATED)
 async def create_post(chatting:ChattingBase, db:db_dependency):
