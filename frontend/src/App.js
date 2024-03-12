@@ -4,6 +4,7 @@ import StudyPage from './pages/study/StudyPage';
 import ChatPage from './pages/chatAi/ChatPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Test from "./pages/main/TestPage"
+import Layout from './components/Header'
 
 import api from './api'
 
@@ -15,6 +16,8 @@ function App() {
   });
 
   return (
+    <>
+    <Layout />
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<EnglishStudyPage />} />
@@ -24,6 +27,7 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    </>
   );
 }
 
