@@ -5,8 +5,9 @@ import ChatPage from './pages/chatAi/ChatPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Test from "./pages/main/TestPage"
 import Layout from './components/Header'
+import AuthPageLayout from './pages/auth/AuthPageLayout'
+import SignupPage from './pages/auth/SignupPage'
 
-import api from './api'
 
 function App() {
   const [content, setContent] = useState([]);
@@ -21,6 +22,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<EnglishStudyPage />} />
+        {/* <Route path="/auth" element={<AuthPageLayout />}> */}
+          {/* <Route path="login" element={<LoginPage />} /> */}
+        <Route path="/signup" element={<SignupPage />} />
+        {/* </Route> */}
         <Route path='/StudyPage' element={<StudyPage />} />
         <Route path='/test' element={<Test />} />
         <Route path='/ChatPage' element={<ChatPage />} />
