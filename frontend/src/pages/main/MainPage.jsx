@@ -173,7 +173,7 @@ function EnglishStudyPage() {
           ))}
         </div>
       </div>
-      <div className="study_1">
+      <div className="study_1" style={{textAlign: 'center'}}>
         <p>영상 시청 후 Ai 튜터와</p>
         <p>말하는 서비스</p>
         <p>Butterfly가 함께 합니다.</p>
@@ -182,6 +182,11 @@ function EnglishStudyPage() {
         <p>AI가 인식 후 그에 맞는</p>
         <p>영상으로 대화를 시작합니다!</p>
         <p>영어를 재미있게 배워보세요!</p>
+      </div>
+      <div className='90Z'>
+        <h2 style={{textAlign: 'center'}}>
+          시간이 지나도 Butterfly는 여러분과 함께 합니다.
+        </h2>
       </div>
       <div className="boka">
         <img src="../img/boka.png" alt="banner" /> {/* 수정된 부분: 상대 경로를 사용하여 import한 이미지 */}

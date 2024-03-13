@@ -57,6 +57,7 @@ function StudyPage() {
 
   const handleClose = () => {
     setShowVideo(false);
+    setVideoUrl('');
   };
 
   const handlePrevSlide = () => {
@@ -284,6 +285,7 @@ function StudyPage() {
       <div className="banner">
         <img src="/img/StudyBanner.jpeg" alt="베너 이미지"/>
       </div>
+      <div className='headerWrap' style={{height: '250px'}}>
       <div className="header">
         <h2 style={{ textAlign: 'center' }}>🌈️ 유튜브 링크를 넣어주세요 🌈️</h2>
       </div>
@@ -318,6 +320,7 @@ function StudyPage() {
           }}
           />
           </button>
+          </div>
       </div>
       <div className='popular-videos'>
         <h2 style={{ textAlign: 'center'}}>🔥인기영상🔥</h2>
