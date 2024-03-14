@@ -1,31 +1,92 @@
 import openai
+import os
+import re
 
-from youtub import youtube
+# from test_gpt import preprocess
 
-# youtube 자막 텍스트 파일로 저장
-youtube('F8f_Tobdu6o')
+# 영상분석 및 전처리
+# text1, text2, text3 = preprocess()
 
+#테스트용
 scene_file= "caption_.txt"
-voice_manual_file= "text_manual.txt"
-voice_auto_file= "text_auto.txt"
+voice_manual_file= "text_manual_en.txt"
+voice_auto_file= "text_manual_ko.txt"
 
 # scene detection
 with open(scene_file, 'r') as text:
     scene_text= text.readlines()
     # 각 문장 끝에 점을 추가한다
     scene_text = [sentence.strip() + '. ' for sentence in scene_text]
-    # 수정된 문장들을 합쳐서 하나의 문자열로 만든다. 
-    scene_text = ''.join(scene_text)
+    # 수정된 문장들을 합쳐서 하나의 문자열로 만든다
+    # scene_text = ''.join(scene_text)
+    text1 = ''.join(scene_text)
 
 # description detection
 with open(voice_manual_file, 'r') as text:
-    voice_manual_text= text.readlines()
+    # voice_manual_text= text.readlines()
+    text2= text.readlines()
 with open(voice_auto_file, 'r') as text:
-    voice_auto_text= text.readlines()
+    # voice_auto_text= text.readlines()
+    text3= text.readlines()
 
-# GPT
-openai.api_key = ""
 
+OPENAI_API_KEY= os.getenv('yj_api')
+total_tokens_used = 0
+
+
+# 현재 대화 토큰 개수
+def estimate_token_count(text):
+    return len(text) // 4
+
+# 총 대화 토큰 갯수
+def update_total_tokens(estimated_tokens):
+    global total_tokens_used
+    total_tokens_used += estimated_tokens
+
+def is_korean(text):
+    return bool(re.search("[가-힣]", text))
+
+# 번역 GPT
+def translate_text(text, target_language, model="gpt-4-0125-preview"):
+    openai.api_key = OPENAI_API_KEY
+
+    translation_prompt = f"Translate the following text to {target_language}:\n\n{text}"
+    response = openai.Completion.create(
+        model=model,
+        prompt=translation_prompt,
+        max_tokens=60
+    )
+
+    translated_text = response.choices[0].text.strip()
+    estimated_tokens = estimate_token_count(translation_prompt + translated_text)
+    update_total_tokens(estimated_tokens)
+
+    return translated_text
+
+# 다음 답변 받아오기
+def chat_with_gpt(messages, model="gpt-4-0125-preview", stop_sequences=None):
+    openai.api_key = OPENAI_API_KEY
+
+    request_data = {
+        "model": model,
+        "messages": messages,
+        "max_tokens": 150,
+        "temperature": 0.2,
+        "top_p": 1, # ??
+        "stop": stop_sequences
+    }
+
+    response = openai.chat.completions.create(**request_data)
+    response_text = response.choices[0].message.content
+    print(response_text)
+
+    messages.append({"role": "assistant", "content": response_text})
+    estimated_tokens = estimate_token_count(response_text)
+    update_total_tokens(estimated_tokens)
+
+    return response_text, messages
+
+# 피드백 방식
 feedback={
     'Recast':'Reformulating all or part of an erroneous utterance into the correct form without changing its meaning S: Have you meet her brother? T: Have you met her brother? (recast)',
     'Explicit correction' : 'Providing the correct from with an explicit indication of what is being corrected. S: Have you meet her brother? T: Come on, you are not gonna say "Have you meet." tshould be "Have you met... Have you met her brother?"',
@@ -35,17 +96,13 @@ feedback={
     'Repetition': "Repeating the learner's erroneous utterance S:Oh, I'm so tired. I sleep for 2 hours only. T: Isleep?(repetition)"
 }
 
-start = input()
+start = input(f'Choose the type of feedback you want.\n{feedback.keys}')
 
-
-response = openai.chat.completions.create(
-    model="gpt-4-0125-preview",
-    messages=[
-        {"role": "system", "content": f"""
+system= f"""
         You are a teacher who understands the content of the three texts below and start the conversation about their content or plot.
-        <First text>: {scene_text}
-        <Second text>: {voice_manual_text}
-        <Third text>: {voice_auto_text}
+        <First text>: {text1}
+        <Second text>: {text2}
+        <Third text>: {text3}
         
         1. These three texts are all about one content.
         2. Combine the three texts to understand what plot and content they have.
@@ -474,13 +531,35 @@ response = openai.chat.completions.create(
         5. Make all end of the statements in questions to induce responses.
 
             
-        """},
-        {"role": "user", "content": ""},
-        {"role": "assistant", "content": ""},
-        {"role": "user", "content": ""}
-    ],
-    temperature= 0.2
-)
+        """
 
-# print(response['choices'][0]['message']['content'])
-print(response.choices[0].message.content)
+
+messages = [{"role": "system", "content": system}]
+user_input = ""
+print("**** Please enter 'End' or 'Thank you', if you want to end the conversation. ****\n\n\n")
+print("Hello! How was it ?")
+
+
+while True:
+    user_input = input("\nYou: ")
+    
+    original_language = "Korean" if is_korean(user_input) else "English"
+    if original_language == "Korean":
+        user_input = translate_text(user_input, "English")
+
+    messages.append({"role": "user", "content": user_input})
+
+    english_response, messages = chat_with_gpt(messages, stop_sequences=["Thank you", "End"])
+
+    # 받은 답변 한국어로 바꿔서 출력하기
+    # if original_language == "Korean":
+    #     response = translate_text(english_response, "Korean")
+    # else:
+    #     response = english_response
+    # print("Assistant:", response)
+
+    # 대화 끝
+    if ("Thank you" in user_input) or ("End" in user_input):
+        break
+
+print(f"Total estimated tokens used so far: {total_tokens_used}")
