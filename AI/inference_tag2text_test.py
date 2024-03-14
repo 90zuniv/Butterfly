@@ -26,8 +26,8 @@ def tagtotext(path):
     image_size= 384
 
     # scenes = [file for file in os.listdir(img_path) if file.endswith('.jpg')]
-    scenes = [os.path.abspath(os.path.join(img_path, file)) for file in os.listdir(img_path) if file.endswith('.jpg')]
-    print('scenes_list',scenes)
+    scenes = [os.path.abspath(os.path.join(img_path, file)) for file in os.listdir(img_path) if file.endswith('01.jpg')]
+    # print('scenes_list',scenes)
     caption=[]
 
     # delete some tags that may disturb captioning
@@ -37,14 +37,15 @@ def tagtotext(path):
     # 각 사진 당 묘사
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = tag2text(pretrained=model_path,
-                            image_size=image_size,
-                            vit='swin_b',
-                            delete_tag_index=delete_tag_index)
+                     image_size=image_size,
+                     vit='swin_b',
+                     delete_tag_index=delete_tag_index)
     model.threshold =0.68  # threshold for tagging
     model.eval()
     model = model.to(device)
     transform = get_transform(image_size=image_size)
 
+    print('load success')
 
     for cap in scenes:
         print(cap)
@@ -73,5 +74,5 @@ def tagtotext(path):
 
 
 
-# tagtotext('./output/frame/')
+tagtotext('./output/frame/')
 # print(os.getcwd())
