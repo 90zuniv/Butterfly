@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,12 @@ function StudyPage() {
   const [videoUrl, setVideoUrl] = useState('');
   const [showVideo, setShowVideo] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    // 페이지가 로드되었을 때 모달창을 보이도록 설정
+    setShowModal(true);
+  }, []);
 
   const videoLinks = [
     "https://youtu.be/QylMcP-q6-w?si=ReijqawRijsOtZ4n",
@@ -55,8 +61,11 @@ function StudyPage() {
     setShowVideo(true);
   };
 
+  
+
   const handleClose = () => {
     setShowVideo(false);
+    setShowModal(false);
     setVideoUrl('');
   };
 
@@ -356,6 +365,34 @@ function StudyPage() {
           <button onClick={handleNextSlide}>{'>'}</button>
         </div>
       </div>
+      {showModal && (
+          <div className="modal" onClick={handleClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              {/* 닫기 버튼 클릭 시 handleClose 함수 호출 */}
+              <div className="close-button" onClick={(e) => { e.stopPropagation(); handleClose(); }}></div>
+              <h2 style={{ textAlign: 'center'}}>⭐️ Image ⭐️</h2>
+              {/* 이미지를 추가하세요 */}
+              <img src="/your-image-url.jpg" alt="Your Image" style={{ width: '100%', height: 'auto' }} />
+              {/* 닫는 창을 추가하세요 */}
+            </div>
+          </div>
+        )}
+        {showModal && (
+          <div className="modal" onClick={handleClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              {/* 닫기 버튼 클릭 시 handleClose 함수 호출 */}
+              <div className="close-button" onClick={(e) => { e.stopPropagation(); handleClose(); }}></div>
+              <h2 style={{ textAlign: 'center'}}>⭐️ 사용방법 ⭐️</h2>
+              {/* 이미지를 추가하세요 */}
+                <p style={{textAlign: 'center', fontSize: '18px'}}>
+                  유튜브에서 공유하기 클릭 후 링크를 넣어주세요!
+                </p>
+              <img src="/img/사용법.png" alt="Your Image" style={{ width: '100%', height: 'auto' }} />
+              {/* 닫는 창을 추가하세요 */}
+            </div>
+          </div>
+        )}
+
       {showVideo && (
         <div className="modal" onClick={handleClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -376,6 +413,8 @@ function StudyPage() {
           </div>
         </div>
       )}
+
+
 
     </Fragment>
   );
