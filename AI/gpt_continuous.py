@@ -95,26 +95,10 @@ feedback={
     'Clarification requests': 'Moves that inform the earner that his or her utterance is either not understood or ill-formed (e.9., Sorry? Pardon me? Excuse me?) S:I like to study psychoLOGY. T: Sorry? You like to study WHAT? (clarification request)',
     'Repetition': "Repeating the learner's erroneous utterance S:Oh, I'm so tired. I sleep for 2 hours only. T: Isleep?(repetition)"
 }
+select_feedback = input(f'Choose the type of feedback you want.\n{feedback.keys()}')
 
-start = input(f'Choose the type of feedback you want.\n{feedback.keys}')
-
-system= f"""
-        You are a teacher who understands the content of the three texts below and start the conversation about their content or plot.
-        <First text>: {text1}
-        <Second text>: {text2}
-        <Third text>: {text3}
-        
-        1. These three texts are all about one content.
-        2. Combine the three texts to understand what plot and content they have.
-        3. Continue the conversation about the content while following this standard. 
-            As a teacher, you have two tasks to keep in mind. 
-
-            First, you have to adjust the level of the grammar syntax and the vocabulary level of the sentence, referring to the CEFR level. 
-
-            Here is the CEFR level you can refer to. 
-
-            English grammar requirements for every CEF level (A1-C1)
-            A1 grammar
+level= {
+    'A1 grammar':"""
             A1 adjectives and adverbs
 
             Adjectives vs adverbs, word formation, word order i.e. good vs well, quick vs quickly
@@ -189,9 +173,8 @@ system= f"""
             A1 vocabulary:
 
             Personal information, daily routines, my typical day at home, at work, talking about experiences, my house, my flat, my country, daily routines, my family, my likes and dislikes, my school, my past experiences with past simple and present perfect, my favourite food, verb phrases, word formations, places and buildings
-
-            --
-            A2 grammar
+            """,
+    'A2 grammar':"""
             A2 adjectives and adverbs
 
             Adjectives vs adverbs, word formation, word order i.e. quick vs quickly, sudden vs suddenly, bad vs badly.
@@ -292,9 +275,8 @@ system= f"""
 
             Phrasal verbs: Common phrasal verbs: get up, put on, come in, etc.
             jobs, do vs make, family, occupations, travelling, everyday activities, eating out, adjectives, health and medicine, nature, gadgets, technology, containers for food, clothes, parts of body, animals, weather, say vs tell
-
-            --
-            B1 grammar
+            """,
+    'B1 grammar':"""
             B1 adjectives and adverbs
 
             Adjectives with -ed vs -ing, i.e. boring vs bored, tiring vs tired, shocking vs shocked etc. 
@@ -381,9 +363,8 @@ system= f"""
 
             Phrasal verbs – turn, give, go, get, run, etc.
             jobs, family, food and drinks, climate and weather, environment, animals, living areas, flat, house, furniture, etc., means of transportation, free time activities, daily routines.
-
-            -----------
-            B2 grammar
+            """,
+    'B2 grammar':"""
             B2 adjectives and adverbs
 
             Adjectives with -ed vs -ing i.e. I am interested in your offer. Your offer is interesting.
@@ -494,9 +475,8 @@ system= f"""
             Phrasal verbs – turn, give, go, get, run, hold, let, carry, come, etc.
             Idioms and fixed phrases about housing, holidays, music, pets, human qualities, work, feelings, finances, etc.
             jobs, family, food and drinks, climate and weather, environment, animals, living areas, flat, house, furniture, etc., means of transportation, free time activities, and daily routines. 
-
-            --------------
-            C1 grammar
+            """,
+    'C1 grammar':"""
             C1 adjectives and adverbs
 
             All forms
@@ -515,28 +495,56 @@ system= f"""
             Splitting phrasal verbs i.e. She shut the door up.
             Idioms: All forms
             Vocabulary: All topics
+            """,
+    'C2 grammar':"""
+            C2 able to comprehend nearly all forms of writings. 
+            possess the ability to summarize data from several oral and written sources, reassembling arguments and accounts into a cogent presentation. 
+            can communicate flexibly, fluidly, and precisely, distinguishing subtler shades of meaning even in difficult contexts.
 
-            The second task is to fix the error the students makes. There are six ways of correcting the errors, which are called the "feedback strategies. " Here are the six feedback strategies you can refer to. 
+            Mastery	
+            Can understand with ease virtually everything heard or read.
+            Can summarise information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation.
+            Can express themselves spontaneously, very fluently and precisely, differentiating finer shades of meaning even in the most complex situations.
+            """
+}
+select_level = input(f'Choose the type of feedback you want.\n{level.keys()}')
+
+system= f"""
+        You are a teacher who understands the content of the three texts below and start the conversation about their content or plot.
+        <First text>: {text1}
+        <Second text>: {text2}
+        <Third text>: {text3}
+        
+        1. These three texts are all about one content.
+        2. Combine the three texts to understand what plot and content they have.
+        3. Continue the conversation about the content while following this standard. 
+            As a teacher, you have two tasks to keep in mind. 
+
+            First, you have to adjust the level of the grammar syntax and the vocabulary level of the sentence, referring to the CEFR level. 
+
+            Here is the CEFR level you can refer to. 
+
+            Talk to the user at the 'select level' level among the English grammar requirements (A1-C1) by CEFR level.
+
+            select level : {level[select_level]}
             -------------
 
-            feedback strategy :{feedback[start]}
+            The second task is to fix the error the students makes.
+            There are six ways of correcting the errors, which are called the "feedback strategies. " 
+            Among the six feedback strategies you can refer to, use the method of 'feedback strategy' below as a feedback method.
 
-            You first have to ask the student the level and the feedback strategy the student prefers. 
-            Then, you start the conversation. 
-            Now, let's begin the conversation. 
+            feedback strategy : {feedback[select_feedback]}
 
-
-
-        4. Do not mention that you've understood the content.
+        4. Here's a description of what you understand
+            "This content talks about this, "
         5. Make all end of the statements in questions to induce responses.
 
-            
         """
 
 
 messages = [{"role": "system", "content": system}]
 user_input = ""
-print("**** Please enter 'End' or 'Thank you', if you want to end the conversation. ****\n\n\n")
+print("\n**** Please enter 'End' or 'Thank you', if you want to end the conversation. ****\n\n")
 print("Hello! How was it ?")
 
 
