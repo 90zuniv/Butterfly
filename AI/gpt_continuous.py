@@ -1,7 +1,8 @@
 import openai
 import os
 import re
-
+from dotenv import load_dotenv
+load_dotenv()
 # from test_gpt import preprocess
 
 # 영상분석 및 전처리
@@ -30,7 +31,7 @@ with open(voice_auto_file, 'r') as text:
     text3= text.readlines()
 
 
-OPENAI_API_KEY= os.getenv('yj_api')
+openai_key= os.getenv('yj1_api')
 total_tokens_used = 0
 
 
@@ -48,7 +49,7 @@ def is_korean(text):
 
 # 번역 GPT
 def translate_text(text, target_language, model="gpt-4-0125-preview"):
-    openai.api_key = OPENAI_API_KEY
+    openai.api_key = openai_key
 
     translation_prompt = f"Translate the following text to {target_language}:\n\n{text}"
     response = openai.Completion.create(
@@ -65,12 +66,12 @@ def translate_text(text, target_language, model="gpt-4-0125-preview"):
 
 # 다음 답변 받아오기
 def chat_with_gpt(messages, model="gpt-4-0125-preview", stop_sequences=None):
-    openai.api_key = OPENAI_API_KEY
+    openai.api_key = openai_key
 
     request_data = {
         "model": model,
         "messages": messages,
-        "max_tokens": 150,
+        "max_tokens": 200,
         "temperature": 0.2,
         "top_p": 1, # ??
         "stop": stop_sequences
@@ -507,7 +508,7 @@ level= {
             Can express themselves spontaneously, very fluently and precisely, differentiating finer shades of meaning even in the most complex situations.
             """
 }
-select_level = input(f'Choose the type of feedback you want.\n{level.keys()}')
+select_level = input(f'Choose the type of level you want.\n{level.keys()}')
 
 system= f"""
         You are a teacher who understands the content of the three texts below and start the conversation about their content or plot.

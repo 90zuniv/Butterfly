@@ -21,4 +21,4 @@ dic= {
     'e':'eeeee',
 
     }
-print(dic.keys())
+print(dic['e'])
