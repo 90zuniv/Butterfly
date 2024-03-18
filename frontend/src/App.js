@@ -8,6 +8,7 @@ import Layout from './components/Header'
 import AuthPageLayout from './pages/auth/AuthPageLayout'
 import SignupPage from './pages/auth/SignupPage'
 import MyPage from './pages/mypage/MyPage'
+import TestPage from './pages/study/TestPage'
 
 function App() {
   const [content, setContent] = useState([]);
@@ -30,6 +31,7 @@ function App() {
         <Route path='/test' element={<Test />} />
         <Route path='/ChatPage' element={<ChatPage />} />
         <Route path='/MyPage' element={<MyPage />} />
+        <Route path='/TestPage' element={<TestPage />} />
 
       </Routes>
     </BrowserRouter>
