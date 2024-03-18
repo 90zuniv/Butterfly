@@ -5,7 +5,7 @@ const MyPage = () => {
     const fetchLearningHistory = () => {
         // 여기서 학습 기록을 가져와서 반환하는 코드를 작성합니다.
         // 실제로는 DB나 API로부터 데이터를 가져와야 합니다.
-        return ['1','2','3']; // 임시 데이터를 반환하도록 가정
+        return ['1']; // 임시 데이터를 반환하도록 가정
       };
 
       const learningHistory = fetchLearningHistory();
