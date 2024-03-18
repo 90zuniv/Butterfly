@@ -2,6 +2,8 @@ import openai
 import os
 import re
 
+from dotenv import load_dotenv
+load_dotenv()
 
 # from test_gpt import preprocess
 
@@ -31,8 +33,8 @@ with open(voice_auto_file, 'r') as text:
     text3= text.readlines()
 
 
-# OPENAI_API_KEY= os.getenv('api_key')
-OPENAI_API_KEY= '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'
+openai_key= os.getenv('yj1_api')
+
 total_tokens_used = 0
 
 
@@ -49,8 +51,9 @@ def is_korean(text):
     return bool(re.search("[가-힣]", text))
 
 # 번역 GPT
-def translate_text(text, target_language, model="gpt-4-turbo-preview"):
-    openai.api_key = OPENAI_API_KEY
+
+def translate_text(text, target_language, model="gpt-4-0125-preview"):
+    openai.api_key = openai_key
 
     translation_prompt = f"Translate the following text to {target_language}:\n\n{text}"
     response = openai.Completion.create(
@@ -66,13 +69,13 @@ def translate_text(text, target_language, model="gpt-4-turbo-preview"):
     return translated_text
 
 # 다음 답변 받아오기
-def chat_with_gpt(messages, model="gpt-4-turbo-preview", stop_sequences=None):
-    openai.api_key = OPENAI_API_KEY
+def chat_with_gpt(messages, model="gpt-4-0125-preview", stop_sequences=None):
+    openai.api_key = openai_key
 
     request_data = {
         "model": model,
         "messages": messages,
-        "max_tokens": 150,
+        "max_tokens": 200,
         "temperature": 0.2,
         "top_p": 1, # ??
         "stop": stop_sequences
@@ -510,13 +513,8 @@ level= {
             Can express themselves spontaneously, very fluently and precisely, differentiating finer shades of meaning even in the most complex situations.
             """
 }
-selected_level = input(f'Choose the type of feedback you want.\n{level.keys()}')
 
-
-#오류 갯수에 따른 레벨 재조정
-num_error = selected_level
-
-
+select_level = input(f'Choose the type of level you want.\n{level.keys()}')
 
 
 #시스템
