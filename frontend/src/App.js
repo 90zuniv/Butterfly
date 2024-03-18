@@ -7,7 +7,7 @@ import Test from "./pages/main/TestPage"
 import Layout from './components/Header'
 import AuthPageLayout from './pages/auth/AuthPageLayout'
 import SignupPage from './pages/auth/SignupPage'
-
+import MyPage from './pages/mypage/MyPage'
 
 function App() {
   const [content, setContent] = useState([]);
@@ -29,6 +29,7 @@ function App() {
         <Route path='/StudyPage' element={<StudyPage />} />
         <Route path='/test' element={<Test />} />
         <Route path='/ChatPage' element={<ChatPage />} />
+        <Route path='/MyPage' element={<MyPage />} />
 
       </Routes>
     </BrowserRouter>
