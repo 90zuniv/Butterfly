@@ -39,7 +39,7 @@ class ChattingBase(BaseModel):
     user_id : int
 
 class UserBase(BaseModel):
-    name : str
+    id : str
     email : str
     password : str
 
@@ -71,10 +71,10 @@ async def create_youtube(content: ContentBase, db:db_dependency):
     db.refresh(db_content)
     return db_content
 
-@app.get("/content", response_model=List[ContentModel])
-async def read_content(db:db_dependency, skip:int = 0, limit:int = 100):
-    content = db.query(models.Content).offset(skip).limit(limit).all()
-    return content
+# @app.get("/content", response_model=List[ContentModel])
+# async def read_content(db:db_dependency, skip:int = 0, limit:int = 100):
+#     content = db.query(models.Content).offset(skip).limit(limit).all()
+#     return content
 
 
 # app.include_router(chatting_router.router)
@@ -94,14 +94,14 @@ async def read_chatting(chatting_id:int, db:db_dependency):
 
 
 
-@app.post("/users/", status_code=status.HTTP_201_CREATED)
+@app.post("/user/", status_code=status.HTTP_201_CREATED)
 async def create_user(user:UserBase, db:db_dependency):
         db_user = models.User(**user.dict())
         db.add(db_user)
         db.commit()
 
 
-@app.get("/users/{user_id}", status_code=status.HTTP_200_OK)
+@app.get("/user/{user_id}", status_code=status.HTTP_200_OK)
 async def read_user(user_id: int, db:db_dependency):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:

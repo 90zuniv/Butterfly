@@ -6,8 +6,8 @@ print(Base)
 class User(Base):
     __tablename__ = "user"
 
-    id = Column(Integer, primary_key=True, index=True, unique=True, nullable=False)
-    name = Column(String, unique=True, nullable=False)
+    num = Column(Integer, primary_key=True)
+    id = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
     def verify_password(self, password:str):
@@ -20,7 +20,7 @@ class Chatting(Base):
     id = Column(Integer, primary_key=True, index=True)
     date = Column(DateTime, nullable=False)
     chat = Column(TEXT)
-    user_id = Column(Integer,ForeignKey("user.id"))
+    user_id = Column(Integer,ForeignKey("user.num"))
 
 
 class Content(Base):
