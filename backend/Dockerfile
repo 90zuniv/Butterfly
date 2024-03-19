@@ -7,5 +7,5 @@ RUN echo Asia/Seoul > /etc/timezone
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir --upgrade -r /apps/requirements.txt
 COPY ./ /apps/
-CMD ["python3", "./app_start.py"]
-# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"] (편집됨) 
+# CMD ["python3", "./app_start.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
