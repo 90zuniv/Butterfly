@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.10
 WORKDIR /apps/
 COPY ./requirements.txt /apps/requirements.txt
 # 타임존 설정 (설정을 하지 않으면 시간 저장시 다른 시간대로 저장됨)
