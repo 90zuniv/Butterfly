@@ -2,7 +2,7 @@ const api = function (type, options = {}) {
   const apiObject = {
     // 사용자 인증
     signup: ['/api/user', 'post'],
-    check_id: [`/api/unique/id/${options.id}`, 'get'],
+    check_id: [`/api/unique/id/${options.name}`, 'get'],
     check_email: [`/api/unique/email/${options.email}`, 'get'],
     login: ['/api/user/login', 'post'],
     // logout: ['/api/member/refreshToken', 'delete'],

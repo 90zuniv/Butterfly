@@ -13,7 +13,7 @@ export default function SignupForm() {
   const navigate = useNavigate()
 
   // 커스텀 훅 useAuthInput(타입, 초깃값, 정규식검사여부, 서버검사여부)
-  const [id, setId, idMsg] = useAuthInput('id', '', true, true)
+  const [id, setid, idMsg] = useAuthInput('id', '', true, true)
   const [email, setEmail, emailMsg] = useAuthInput('email', '', true, true)
   const [password, setPassword, passwordMsg] = useAuthInput(
     'password',
@@ -63,7 +63,7 @@ export default function SignupForm() {
         <AuthInput
           type="id"
           value={id}
-          onChange={(e) => setId(e.target.value)}
+          onChange={(e) => setid(e.target.value)}
           message={idMsg}
         ></AuthInput>
         <AuthInput
