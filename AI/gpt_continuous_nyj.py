@@ -56,7 +56,7 @@ def translate_text(text, target_language, model="gpt-4-0125-preview"):
     response = openai.Completion.create(
         model=model,
         prompt=translation_prompt,
-        max_tokens=60
+        max_tokens= len(text)
     )
 
     translated_text = response.choices[0].text.strip()
@@ -555,7 +555,7 @@ while True:
     
     original_language = "Korean" if is_korean(user_input) else "English"
     if original_language == "Korean":
-        user_input = translate_text(user_input, "English")
+        user_input = translate_text(user_input, "English") # 영어번역
 
     messages.append({"role": "user", "content": user_input})
 
@@ -571,37 +571,10 @@ while True:
     # 대화 끝
     if ("Thank you" in user_input) or ("End" in user_input):
         break
+
 messages= messages[1:]
 json_data= json.dumps(messages, indent= 4)
 with open('chatting.json','w') as f:
     f.write(json_data)
 print(f"Total estimated tokens used so far: {total_tokens_used}")
 
-"""
-[
-{
-    "question_num":1,
-    'question':'what~?',
-    'option1':'one',
-    'option2':'two',
-    'option3':'three',
-    'answer':'one'
-}
-{
-    "question_num":2,
-    'question':'what~?',
-    'option1':'one',
-    'option2':'two',
-    'option3':'three',
-    'answer':'one'
-}
-{
-    "question_num":3,
-    'question':'what~?',
-    'option1':'one',
-    'option2':'two',
-    'option3':'three',
-    'answer':'one'
-}
-]
-"""
