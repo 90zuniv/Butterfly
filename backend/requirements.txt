@@ -3,4 +3,6 @@ fastapi
 python-dotenv
 pydantic
 sqlalchemy
-pip install --user passlib sudo pip install passlib
+pymysql
+passlib
+cryptography
