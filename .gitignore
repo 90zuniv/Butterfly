@@ -167,3 +167,5 @@ cython_debug/
 *.mp4
 *.jpg
 *.pth
+*.vtt
+*.webp

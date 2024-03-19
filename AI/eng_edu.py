@@ -1,6 +1,6 @@
 import os
 import openai
-from youtub import youtube
+from Butterfly.AI.youtub_modify import youtube
 
 # youtube 자막 텍스트 파일로 저장
 youtube('F8f_Tobdu6o')
