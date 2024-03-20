@@ -8,14 +8,12 @@ dotenv.load_dotenv()
 
 from contents_analysis_final import contents_anal
 
-
 # 영상분석
 caption_txt, script_txt =contents_anal()
 
-
+# 프롬프팅
 openai_key= os.getenv('yj1_api')
 total_tokens_used = 0
-
 
 # 현재 대화 토큰 개수
 def estimate_token_count(text):
