@@ -198,7 +198,7 @@ function EnglishStudyPage() {
           }}>
           시간이 지나도 Butterfly는 항상 여러분과 함께 합니다.
           <div className='time' style={{
-            fontSize: '23px',
+            fontSize: '32px',
             margin: '30px 0px'
           }}>
           {currentTime.toLocaleTimeString()}

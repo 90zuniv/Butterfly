@@ -15,6 +15,21 @@ function StudyPage() {
   const [showVideo, setShowVideo] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
   const [showModal, setShowModal] = useState(false);
+  const [showChatButton, setShowChatButton] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(true);
+
+  useEffect(() => {
+    setShowModal(true);
+    // 5초 후에 채팅 버튼으로 변경
+    const timer = setTimeout(() => {
+      setShowChatButton(true);
+    }, 5000);
+    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+  }, []);
+
+  useEffect(() => {
+    setShowChatButton(!isAnalyzing); // 영상 분석중일 때는 채팅 버튼을 비활성화
+  }, [isAnalyzing]);
 
   useEffect(() => {
     // 페이지가 로드되었을 때 모달창을 보이도록 설정
@@ -183,7 +198,7 @@ function StudyPage() {
             justify-content: space-between;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
           }
-          
+
           .video-thumbnail img {
             width: 100%;
             height: auto;
@@ -405,6 +420,8 @@ function StudyPage() {
                 </div>
               </div>
             </div>
+            
+            
             <div className="go-to-chat-button">
               <Link to="/ChatPage">
                 채팅하러 가기
