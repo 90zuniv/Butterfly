@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, Path, HTTPException, status
 from pydantic import BaseModel
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 from database import engine, SessionLocal
 import models
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ import os
 from dotenv import load_dotenv
 
 
-
+router = APIRouter()
 
 from sqlalchemy.sql.expression import func
 # from domain.chatting import chatting_router
@@ -50,7 +50,7 @@ class UserCreate(BaseModel):
 class UserRead(BaseModel):
     id: int
     email: str
-    level: str = None
+    level: Optional[str] = None
     class Config:
         orm_mode = True
 
@@ -132,7 +132,9 @@ async def create_user(user:UserCreate, db: Session = Depends(get_db)):
 
 @app.post("/login")
 async def login(email: str, password: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == email).first()
+    user = db.query(models.User).filter(models.User.email == email)
+    print(models.User)
+    print(models.User.password)
     if not user or not (models.User.password == password):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     return {"message": "Login Successful"}

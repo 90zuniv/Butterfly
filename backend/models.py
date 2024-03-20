@@ -16,14 +16,14 @@ class Chatting(Base):
     __tablename__ = "chatting"
 
     id = Column(Integer, primary_key=True, index=True, nullable=False)
-    date = Column(DateTime, nullable=False, default=DateTime.now)
+    date = Column(DateTime, nullable=False, default=DateTime)
     chat = Column(VARCHAR(50), nullable=False)
-    user_id = Column(Integer,ForeignKey("user.num"))
+    user_id = Column(Integer,ForeignKey("user.id"))
 
 
 class Content(Base):
     __tablename__ = "content"
-    # id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     content_id = Column(VARCHAR(50), nullable=False)
     content_thumbnail = Column(VARCHAR(50), nullable=False)
     chatting_id = Column(Integer,ForeignKey("chatting.id"))
