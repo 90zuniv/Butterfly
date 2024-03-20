@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-# DB_URL = 'mysql+pymysql://root:0000@localhost:3306/butterfly'
 UNAME = os.getenv('UNAME')
 PASSWORD = os.getenv('PASSWORD')
 HOST = os.getenv('HOST')
