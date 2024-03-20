@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { Link } from 'react-router-dom';
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 
 const playIconUrl = "/img/Playback.png";
 const closeButtonUrl = "/img/CloseBtn.png";
@@ -182,7 +183,7 @@ function StudyPage() {
             justify-content: space-between;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
           }
-
+          
           .video-thumbnail img {
             width: 100%;
             height: auto;
@@ -260,7 +261,6 @@ function StudyPage() {
 
           .go-to-chat-button {
             text-align: center;
-            margin-top: 20px;
           }
 
           .go-to-chat-button a {
@@ -397,7 +397,7 @@ function StudyPage() {
         <div className="modal" onClick={handleClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="close-button" onClick={handleClose}></div>
-            <h2 style={{ textAlign: 'center'}}>⭐️ Video ⭐️</h2>
+            <h2 style={{ textAlign: 'center', margin: '0px 0px 10px'}}>⭐️ Video ⭐️</h2>
             <div className="video-list">
               <div className="video-thumbnail">
                 <div className="video-player">
