@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -43,3 +44,6 @@
   font-style: normal;
 }
 
+body {
+  font-family: 'BMDOHYEON';
+}
