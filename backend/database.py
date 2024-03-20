@@ -9,12 +9,12 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-UNAME = os.getenv('UNAME')
+USER_NAME = os.getenv('USER_NAME')
 PASSWORD = os.getenv('PASSWORD')
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
 
-DB_URL = f'mysql+pymysql://{UNAME}:{PASSWORD}@{HOST}:{PORT}/dbmaster'
+DB_URL = f'mysql+pymysql://{USER_NAME}:{PASSWORD}@{HOST}:{PORT}/dbmaster'
 
 engine = create_engine(DB_URL)
 
