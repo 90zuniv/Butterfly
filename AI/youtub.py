@@ -10,7 +10,7 @@ def youtube(youtube_url):
 
     # retrieve the available transcripts
     # 자막 + 타임코드
-    get_transcript= YouTubeTranscriptApi.get_transcript(youtube_id)
+    # get_transcript= YouTubeTranscriptApi.get_transcript(youtube_id)
     # 리스트
     transcript_list = YouTubeTranscriptApi.list_transcripts(youtube_id)
 
@@ -18,7 +18,7 @@ def youtube(youtube_url):
     for transcript in transcript_list:
         trans_list.append(transcript.language_code)
 
-    
+
     # 영어 자막 있을 경우
     if 'en' in trans_list:
         en_script = transcript_list.find_transcript(['en'])
@@ -26,7 +26,7 @@ def youtube(youtube_url):
 
     # 영어 자막 없을 경우
     else:
-        en_script= transcript_list[0].translate('en')
+        en_script= transcript_list.find_transcript([trans_list[0]]).translate('en')
         script= en_script.fetch()
     
     # print(script)
@@ -34,6 +34,7 @@ def youtube(youtube_url):
     for i in range(len(script)):
         script_text += script[i]['text']
         script_text += ' '
+
     file = open("transcript.txt", "w") 
     file.write(script_text)
     file.close()

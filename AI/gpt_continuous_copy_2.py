@@ -2,45 +2,17 @@ import openai
 import os
 import re
 import dotenv
-#from dotenv import load_dotenv
 dotenv.load_dotenv()
 
 
-            
-# from test_gpt import preprocess
+from contents_analysis_final import contents_anal
 
-# 영상분석 및 전처리
-# text1, text2, text3 = preprocess()
+# 영상분석
+caption_txt, script_txt =contents_anal()
 
-#테스트용
-scene_file= "caption_.txt"
-voice_manual_file= "text_manual_en.txt"
-voice_auto_file= "text_manual_ko.txt"
-
-# scene detection
-with open(scene_file, 'r') as text:
-    scene_text= text.readlines()
-    # 각 문장 끝에 점을 추가한다
-    scene_text = [sentence.strip() + '. ' for sentence in scene_text]
-    # 수정된 문장들을 합쳐서 하나의 문자열로 만든다
-    # scene_text = ''.join(scene_text)
-    text1 = ''.join(scene_text)
-
-
-
-
-
-#시스템 detection
-with open(voice_manual_file, 'r') as text:
-    # voice_manual_text= text.readlines()
-    text2= text.readlines()
-with open(voice_auto_file, 'r') as text:
-    # voice_auto_text= text.readlines()
-    text3= text.readlines()
-
-openai_key= os.getenv('api_key')
+# 프롬프팅
+openai_key= os.getenv('yj1_api')
 total_tokens_used = 0
-
 
 # 현재 대화 토큰 개수
 def estimate_token_count(text):
@@ -51,11 +23,8 @@ def update_total_tokens(estimated_tokens):
     global total_tokens_used
     total_tokens_used += estimated_tokens
 
-def is_korean(text):
-    return bool(re.search("[가-힣]", text))
-
 # 번역 GPT
-def translate_text(text, target_language, model="gpt-4-turbo-preview"):
+def translate_text(text, target_language, model="gpt-3.5-turbo-0125"):
     openai.api_key = openai_key
 
     translation_prompt = f"Translate the following text to {target_language}:\n\n{text}"

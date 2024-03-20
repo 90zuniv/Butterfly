@@ -58,7 +58,7 @@ def tagtotext(img_path, model_path):
         caption+= '.\n'
 
     with open('caption.txt', 'w+') as file:
-        file.write()
+        file.write(caption)
     
     print('tag2text success')
     return caption

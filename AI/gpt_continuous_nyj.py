@@ -2,34 +2,15 @@ import openai
 import json
 import os
 import re
-from dotenv import load_dotenv
-load_dotenv()
-# from test_gpt import preprocess
+import dotenv
+dotenv.load_dotenv()
 
-# 영상분석 및 전처리
-# text1, text2, text3 = preprocess()
 
-#테스트용
-scene_file= "caption_.txt"
-voice_manual_file= "text_manual_en.txt"
-voice_auto_file= "text_manual_ko.txt"
+from contents_analysis_final import contents_anal
 
-# scene detection
-with open(scene_file, 'r') as text:
-    scene_text= text.readlines()
-    # 각 문장 끝에 점을 추가한다
-    scene_text = [sentence.strip() + '. ' for sentence in scene_text]
-    # 수정된 문장들을 합쳐서 하나의 문자열로 만든다
-    # scene_text = ''.join(scene_text)
-    text1 = ''.join(scene_text)
 
-# description detection
-with open(voice_manual_file, 'r') as text:
-    # voice_manual_text= text.readlines()
-    text2= text.readlines()
-with open(voice_auto_file, 'r') as text:
-    # voice_auto_text= text.readlines()
-    text3= text.readlines()
+# 영상분석
+caption_txt, script_txt =contents_anal()
 
 
 openai_key= os.getenv('yj1_api')
@@ -49,7 +30,7 @@ def is_korean(text):
     return bool(re.search("[가-힣]", text))
 
 # 번역 GPT
-def translate_text(text, target_language, model="gpt-4-0125-preview"):
+def translate_text(text, target_language, model="gpt-3.5-turbo-0125"):
     openai.api_key = openai_key
 
     translation_prompt = f"Translate the following text to {target_language}:\n\n{text}"
@@ -80,6 +61,7 @@ def chat_with_gpt(messages, model="gpt-4-0125-preview", stop_sequences=None):
 
     response = openai.chat.completions.create(**request_data)
     response_text = response.choices[0].message.content
+    print('\n\n')
     print(response_text)
 
     messages.append({"role": "assistant", "content": response_text})
@@ -561,20 +543,18 @@ while True:
 
     english_response, messages = chat_with_gpt(messages, stop_sequences=["Thank you", "End"])
 
-    # 받은 답변 한국어로 바꿔서 출력하기
-    # if original_language == "Korean":
-    #     response = translate_text(english_response, "Korean")
-    # else:
-    #     response = english_response
-    # print("Assistant:", response)
-
     # 대화 끝
     if ("Thank you" in user_input) or ("End" in user_input):
         break
 
 messages= messages[1:]
 json_data= json.dumps(messages, indent= 4)
-with open('chatting.json','w') as f:
-    f.write(json_data)
+
+# json파일 변환
+# with open('chatting.json','w') as f:
+#     f.write(json_data)
+
+
+
 print(f"Total estimated tokens used so far: {total_tokens_used}")
 
