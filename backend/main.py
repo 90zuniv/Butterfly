@@ -5,12 +5,17 @@ from database import engine, SessionLocal
 import models
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-
 from fastapi.routing import APIRouter
 import os
 from dotenv import load_dotenv
 
+
+
+
+from sqlalchemy.sql.expression import func
 # from domain.chatting import chatting_router
+
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -33,24 +38,49 @@ app.add_middleware(
 models.Base.metadata.create_all(bind=engine)
 
 
-class ChattingBase(BaseModel):
-    story : str
-    thumbnail : str
-    user_id : int
 
-class UserBase(BaseModel):
-    id : str
+class UserCreate(BaseModel):
     email : str
     password : str
+
+# class UserCreate(UserBase):
+#     id : int
+#     class config :
+#         orm_mode = True
+class UserRead(BaseModel):
+    id: int
+    email: str
+    level: str = None
+    class Config:
+        orm_mode = True
+
+
+
+class ChattingBase(BaseModel):
+    id : int
+    chat : str
+    user_id : int
+    date : int
 
 class ContentBase(BaseModel):
     content_id : str
     content_thumbnail : str
+    chatting_id : int
 
 class ContentModel(ContentBase):
     id : int
     class Config:
         from_attributes  = True
+
+class TestModel(BaseModel):
+    que_num : int
+    question : str
+    ops_1 : str
+    ops_2 : str
+    ops_3 : str
+    ops_4 : str
+    ops_5 : str
+    correct : str
 
 def get_db():
     db = SessionLocal()
@@ -75,8 +105,6 @@ async def create_youtube(content: ContentBase, db:db_dependency):
 # async def read_content(db:db_dependency, skip:int = 0, limit:int = 100):
 #     content = db.query(models.Content).offset(skip).limit(limit).all()
 #     return content
-
-
 # app.include_router(chatting_router.router)
 
 @app.post("/chatting/", status_code=status.HTTP_201_CREATED)
@@ -94,12 +122,20 @@ async def read_chatting(chatting_id:int, db:db_dependency):
 
 
 
-@app.post("/user/", status_code=status.HTTP_201_CREATED)
-async def create_user(user:UserBase, db:db_dependency):
-        db_user = models.User(**user.dict())
-        db.add(db_user)
-        db.commit()
+@app.post("/user/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+async def create_user(user:UserCreate, db: Session = Depends(get_db)):
+    db_user = models.User(email=user.email, password=user.password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
+@app.post("/login")
+async def login(email: str, password: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user or not (models.User.password == password):
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+    return {"message": "Login Successful"}
 
 @app.get("/user/{user_id}", status_code=status.HTTP_200_OK)
 async def read_user(user_id: int, db:db_dependency):
@@ -107,3 +143,21 @@ async def read_user(user_id: int, db:db_dependency):
     if user is None:
         raise HTTPException(status_code=404, detail='User not found')
     return user
+
+
+@app.get("/user/{user_id}/level_test", status_code=status.HTTP_200_OK)
+async def submit_level_test(user_id: int, answers: List[str], db: db_dependency):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    questions = db.query(models.Level_test).all()
+    if not questions:
+        raise HTTPException(status_code=404, detail="No questions found")
+
+    correct_answers = 0
+    for question, answer in zip(questions, answers):
+        if question.correct == answer:
+            correct_answers += 1
+    db.commit()
+    return {"message": "Test submitted successfully", "level": user.level}
