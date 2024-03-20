@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 function EnglishStudyPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
 
   const banners = [
@@ -29,6 +30,13 @@ function EnglishStudyPage() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
 
@@ -184,8 +192,17 @@ function EnglishStudyPage() {
         <p>영어를 재미있게 배워보세요!</p>
       </div>
       <div className='90Z'>
-        <h2 style={{textAlign: 'center'}}>
-          시간이 지나도 Butterfly는 여러분과 함께 합니다.
+        <h2 style={{
+          textAlign: 'center',
+          fontSize: '30px',
+          }}>
+          시간이 지나도 Butterfly는 항상 여러분과 함께 합니다.
+          <div className='time' style={{
+            fontSize: '32px',
+            margin: '30px 0px'
+          }}>
+          {currentTime.toLocaleTimeString()}
+          </div>
         </h2>
       </div>
       <div className="boka">

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import './App.css';
 import EnglishStudyPage from "./pages/main/MainPage";
 import StudyPage from './pages/study/StudyPage';
 import ChatPage from './pages/chatAi/ChatPage';
@@ -9,6 +10,7 @@ import AuthPageLayout from './pages/auth/AuthPageLayout'
 import SignupPage from './pages/auth/SignupPage'
 import MyPage from './pages/mypage/MyPage'
 import TestPage from './pages/study/TestPage'
+
 
 function App() {
   const [content, setContent] = useState([]);
@@ -24,7 +26,7 @@ function App() {
       <Routes>
         <Route path='/' element={<EnglishStudyPage />} />
         {/* <Route path="/auth" element={<AuthPageLayout />}> */}
-          {/* <Route path="login" element={<LoginPage />} /> */}
+          {/* <Route path="login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         {/* </Route> */}
         <Route path='/StudyPage' element={<StudyPage />} />
