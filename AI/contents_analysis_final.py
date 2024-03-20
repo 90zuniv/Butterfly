@@ -2,8 +2,8 @@ import os
 import time
 import shutil
 
-from yt import yt
-from scene_3 import sc
+from ytdlp import yt
+from scene_detect import sc
 from youtub import youtube
 from inference_tag2text_test import tagtotext
 
@@ -33,9 +33,11 @@ def contents_anal():
     # with open('caption.txt', 'r') as file:
     #     caption_txt= file.readlines()
 
+
     # youtube 자막 텍스트 파일로 저장
     # 문자열
     script_txt= youtube(youtube_url)
+
 
     ####### 실행 x ########
     # # scene detection
@@ -53,6 +55,6 @@ def contents_anal():
     
     return caption_txt, script_txt
 
-a,b= contents_anal()
-print('scene',a)
-print('script',b)
+# a,b= contents_anal()
+# print('scene',a)
+# print('script',b)
