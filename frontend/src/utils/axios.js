@@ -1,7 +1,7 @@
 import axios from "axios";
 import api from '../constants/api'
 const apiRequest = axios.create({
-  baseURL: 'http://googongz.com:8001/',
+  baseURL: 'http://127.0.0.1:8000/',
   withCredentials: true,
 });
 

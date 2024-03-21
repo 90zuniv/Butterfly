@@ -9,7 +9,6 @@ from fastapi.routing import APIRouter
 import os
 from dotenv import load_dotenv
 
-
 router = APIRouter()
 
 from sqlalchemy.sql.expression import func
@@ -23,13 +22,15 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 app = FastAPI()
 
 origins = [
-    os.environ["FRONTEND_URL"]
+    os.environ["FRONTEND_URL"],
+    "http://localhost:3000", 
+    "http://127.0.0.1:3000",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    # allow_credential = True,
+    allow_credentials = True,
     allow_methods = ['*'],
     allow_headers = ['*'],
 
@@ -51,10 +52,13 @@ class UserRead(BaseModel):
     id: int
     email: str
     level: Optional[str] = None
+
     class Config:
-        orm_mode = True
+        from_attributes = True
 
-
+class LoginRequest(BaseModel):  # 로그인 요청을 위한 Pydantic 모델
+    email: str
+    password: str
 
 class ChattingBase(BaseModel):
     id : int
@@ -130,14 +134,13 @@ async def create_user(user:UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     return db_user
 
-@app.post("/login")
-async def login(email: str, password: str, db:db_dependency):
-    user = db.query(models.User).filter(models.User.email == email).first()
-    print(user)
-    print(models.User.password)
-    if not user or not (models.User.password == password):
+@app.post("/user/login")
+async def login(request: LoginRequest, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == request.email).first()
+    if user and (request.password == user.password):
+        return {"message": "Login Successful"}
+    else:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
-    return {"message": "Login Successful"}
 
 @app.get("/user/{user_id}", status_code=status.HTTP_200_OK)
 async def read_user(user_id: int, db:db_dependency):

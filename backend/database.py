@@ -13,8 +13,9 @@ USER_NAME = os.getenv('USER_NAME')
 PASSWORD = os.getenv('PASSWORD')
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
+DB_NAME = os.getenv('DB_NAME')
 
-DB_URL = f'mysql+pymysql://{USER_NAME}:{PASSWORD}@{HOST}:{PORT}/dbmaster'
+DB_URL = f'mysql+pymysql://{USER_NAME}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}'
 
 engine = create_engine(DB_URL)
 

@@ -8,8 +8,8 @@ class User(Base):
     email = Column(VARCHAR(50), unique=True, nullable=False)
     password = Column(VARCHAR(50), nullable=False)
     level = Column(VARCHAR(10), nullable=True)
-    def verify_password(self, password:str):
-        return hash.bcrypt.verify(password,self.password)
+    # def verify_password(self, password:str):
+    #     return hash.bcrypt.verify(password,self.password)
     
 
 class Chatting(Base):
