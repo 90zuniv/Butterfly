@@ -127,6 +127,7 @@ function StudyPage() {
 
           .banner img {
             width: 100%;
+            height: 550px
           }
 
           .header {
@@ -307,7 +308,7 @@ function StudyPage() {
       </style>
       
       <div className="banner">
-        <img src="/img/StudyBanner.jpeg" alt="베너 이미지"/>
+        <img src="/img/StudyBanner.png" alt="베너 이미지"/>
       </div>
       <div className='headerWrap' style={{height: '250px'}}>
       <div className="header">
