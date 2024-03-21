@@ -10,6 +10,7 @@ import AuthPageLayout from './pages/auth/AuthPageLayout'
 import SignupPage from './pages/auth/SignupPage'
 import MyPage from './pages/mypage/MyPage'
 import TestPage from './pages/study/TestPage'
+import Footer from './components/Footer'
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    {/* <Footer /> */}
     </>
   );
 }
