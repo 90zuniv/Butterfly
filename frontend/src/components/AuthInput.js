@@ -20,11 +20,11 @@ onKeyUp: onKeyUp시 실행되는 함수
 */
 
 const typeObj = {
-  id: {
-    type: 'text',
-    label: 'id',
-    logo: <BiUser />,
-    placeholder: '이름을 입력하세요',
+  email: {
+    type: 'email',
+    label: 'Email',
+    logo: <MdOutlineEmail />,
+    placeholder: '이메일을 입력하세요',
   },
   password: {
     type: 'password',
@@ -37,12 +37,6 @@ const typeObj = {
     label: 'Confirm Password',
     logo: <RiLockPasswordLine />,
     placeholder: '비밀번호를 확인하세요',
-  },
-  email: {
-    type: 'email',
-    label: 'Email',
-    logo: <MdOutlineEmail />,
-    placeholder: '이메일을 입력하세요',
   },
 }
 

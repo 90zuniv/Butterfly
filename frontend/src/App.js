@@ -3,11 +3,12 @@ import './App.css';
 import EnglishStudyPage from "./pages/main/MainPage";
 import StudyPage from './pages/study/StudyPage';
 import ChatPage from './pages/chatAi/ChatPage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
 import Test from "./pages/main/TestPage"
 import Layout from './components/Header'
 import AuthPageLayout from './pages/auth/AuthPageLayout'
 import SignupPage from './pages/auth/SignupPage'
+import LoginPage from './pages/auth/LoginPage'
 import MyPage from './pages/mypage/MyPage'
 import TestPage from './pages/study/TestPage'
 import Footer from './components/Footer'
@@ -30,6 +31,8 @@ function App() {
           {/* <Route path="login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         {/* </Route> */}
+        <Route path='/signup' element={<SignupPage />} />
+        <Route path='/login' element={<LoginPage />} />
         <Route path='/StudyPage' element={<StudyPage />} />
         <Route path='/test' element={<Test />} />
         <Route path='/ChatPage' element={<ChatPage />} />
