@@ -26,7 +26,7 @@
 ![image](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ![image](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
-# ![image](https://img.shields.io/badge/Maintained%3F-no-red.svg
+# ![image](https://img.shields.io/badge/Maintained%3F-no-red.svg)
 
 ![image](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)
 ![image](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)
