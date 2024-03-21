@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { Link } from 'react-router-dom';
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 
 const playIconUrl = "/img/Playback.png";
 const closeButtonUrl = "/img/CloseBtn.png";
@@ -14,6 +15,21 @@ function StudyPage() {
   const [showVideo, setShowVideo] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
   const [showModal, setShowModal] = useState(false);
+  const [showChatButton, setShowChatButton] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(true);
+
+  useEffect(() => {
+    setShowModal(true);
+    // 5초 후에 채팅 버튼으로 변경
+    const timer = setTimeout(() => {
+      setShowChatButton(true);
+    }, 5000);
+    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+  }, []);
+
+  useEffect(() => {
+    setShowChatButton(!isAnalyzing); // 영상 분석중일 때는 채팅 버튼을 비활성화
+  }, [isAnalyzing]);
 
   useEffect(() => {
     // 페이지가 로드되었을 때 모달창을 보이도록 설정
@@ -111,6 +127,7 @@ function StudyPage() {
 
           .banner img {
             width: 100%;
+            height: 550px
           }
 
           .header {
@@ -260,7 +277,6 @@ function StudyPage() {
 
           .go-to-chat-button {
             text-align: center;
-            margin-top: 20px;
           }
 
           .go-to-chat-button a {
@@ -292,7 +308,7 @@ function StudyPage() {
       </style>
       
       <div className="banner">
-        <img src="/img/StudyBanner.jpeg" alt="베너 이미지"/>
+        <img src="/img/StudyBanner.png" alt="베너 이미지"/>
       </div>
       <div className='headerWrap' style={{height: '250px'}}>
       <div className="header">
@@ -397,7 +413,7 @@ function StudyPage() {
         <div className="modal" onClick={handleClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="close-button" onClick={handleClose}></div>
-            <h2 style={{ textAlign: 'center'}}>⭐️ Video ⭐️</h2>
+            <h2 style={{ textAlign: 'center', margin: '0px 0px 10px'}}>⭐️ Video ⭐️</h2>
             <div className="video-list">
               <div className="video-thumbnail">
                 <div className="video-player">
@@ -405,6 +421,8 @@ function StudyPage() {
                 </div>
               </div>
             </div>
+            
+            
             <div className="go-to-chat-button">
               <Link to="/ChatPage">
                 채팅하러 가기

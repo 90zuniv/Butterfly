@@ -20,11 +20,11 @@ onKeyUp: onKeyUp시 실행되는 함수
 */
 
 const typeObj = {
-  id: {
-    type: 'text',
-    label: 'Id',
-    logo: <BiUser />,
-    placeholder: '아이디를 입력하세요',
+  email: {
+    type: 'email',
+    label: 'Email',
+    logo: <MdOutlineEmail />,
+    placeholder: '이메일을 입력하세요',
   },
   password: {
     type: 'password',
@@ -37,24 +37,6 @@ const typeObj = {
     label: 'Confirm Password',
     logo: <RiLockPasswordLine />,
     placeholder: '비밀번호를 확인하세요',
-  },
-  name: {
-    type: 'text',
-    label: 'Name',
-    logo: <BiUser />,
-    placeholder: '이름을 입력하세요',
-  },
-  nickname: {
-    type: 'text',
-    label: 'Nickname',
-    logo: <BiUser />,
-    placeholder: '닉네임을 입력하세요',
-  },
-  email: {
-    type: 'email',
-    label: 'Email',
-    logo: <MdOutlineEmail />,
-    placeholder: '이메일을 입력하세요',
   },
 }
 
@@ -73,7 +55,7 @@ export default function AuthInput({ type, value, message, onChange, onKeyUp }) {
           onKeyUp={onKeyUp}
         />
       </FlexBox>
-      <p className={`c ${message.isValid ? 'pass' : 'error'}`}>
+      <p className={`c ${message.isValname ? 'pass' : 'error'}`}>
         {message.text}
       </p>
     </Container>
@@ -85,8 +67,6 @@ AuthInput.propTypes = {
     'id',
     'password',
     'confirmPassword',
-    'name',
-    'nickname',
     'email',
   ]),
   value: PropTypes.string,

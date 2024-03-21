@@ -12,7 +12,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+
 develop-eggs/
 dist/
 downloads/
@@ -167,3 +167,5 @@ cython_debug/
 *.mp4
 *.jpg
 *.pth
+*.vtt
+*.webp
