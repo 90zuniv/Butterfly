@@ -131,9 +131,9 @@ async def create_user(user:UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 @app.post("/login")
-async def login(email: str, password: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == email)
-    print(models.User)
+async def login(email: str, password: str, db:db_dependency):
+    user = db.query(models.User).filter(models.User.email == email).first()
+    print(user)
     print(models.User.password)
     if not user or not (models.User.password == password):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
