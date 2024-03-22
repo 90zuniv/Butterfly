@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
@@ -24,17 +24,17 @@ const Header = () => {
   return (
     <header style={{ backgroundColor: '#F6F1EB', padding: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div style={{margin: '10px 50px'}}>
-        <img src="/img/ButterFlyLog.png" alt="Logo" style={{ width: '150px', height: 'auto' }} />
+        <img src="/img/ButterFlyLog.png" alt="Logo" style={{ width: '150px', height: 'auto' }} onClick={() => navigate("/")}/>
       </div>
       <div>
         {isLoggedIn ? (
           <>
             <img src="/img/MyPage.png" alt="My Page" style={{ width: '30px', height: '30px', marginRight: '10px', cursor: 'pointer' }} onClick={handleMyPage} />
             <img src="/img/study.png" alt="Study Page" style={{ width: '30px', height: '30px', marginRight: '10px', cursor: 'pointer' }} onClick={handleMyPage} />
-            <img src="/img/logout.png" alt="Logout" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={handleLogout} />
+            <img src="/img/logout.png" alt="Logout" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={() => navigate("/logout")} />
           </>
         ) : (
-          <img src="/img/login.png" alt="Login" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={handleLogin} />
+          <img src="/img/login.png" alt="Login" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={() => navigate("/login")} />
         )}
       </div>
     </header>
