@@ -38,7 +38,6 @@ function App() {
         <Route path='/ChatPage' element={<ChatPage />} />
         <Route path='/MyPage' element={<MyPage />} />
         <Route path='/TestPage' element={<TestPage />} />
-
       </Routes>
     </BrowserRouter>
     {/* <Footer /> */}

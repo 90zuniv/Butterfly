@@ -1,13 +1,15 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 
 const playIconUrl = "/img/Playback.png";
 const closeButtonUrl = "/img/CloseBtn.png";
-
 function StudyPage() {
-
+  
+  const navigate = useNavigate();
   const totalVideos = 8; // 예시로 8개의 인기 영상을 가정
   const videosToShow = 4; // 한 번에 보여질 비디오 수
 
@@ -17,6 +19,7 @@ function StudyPage() {
   const [showModal, setShowModal] = useState(false);
   const [showChatButton, setShowChatButton] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
+  
 
   useEffect(() => {
     setShowModal(true);
