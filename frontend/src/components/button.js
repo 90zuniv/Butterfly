@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
+
 
 /*
 기본 버튼 컴포넌트
