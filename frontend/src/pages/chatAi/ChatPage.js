@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef, } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function ChatPage() {
   const [messages, setMessages] = useState([]);
+  const [inputText, setInputText] = useState('');
   const [isOpen, setIsOpen] = useState(false); // 모달 상태 추가
   const [level, setLevel] = useState('A1');
   const messagesEndRef = useRef(null);
@@ -16,37 +18,23 @@ function ChatPage() {
     scrollToBottom();
   }, [messages]);
 
-  const handleMessageSubmit = (text) => {
+  const handleMessageSubmit = async (text) => {
     if (text.trim() === '') return; // 빈 메시지 전송 방지
 
-    const newMessage = { text, fromUser: true };
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    try {
+      const response = await axios.post('/api/sendMessage', {
+        text: inputText // 사용자가 입력한 메시지
+      });
 
-    if (text.trim() === 'hi~!') {
-      // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
-      setTimeout(() => {
-        const replyMessage = { text: 'Hello how are you ?', fromUser: false };
-        setMessages((prevMessages) => [...prevMessages, replyMessage]);
-      }, 1000);
+      // 응답으로 받은 메시지를 화면에 표시
+      const newMessage = { text: response.data, fromUser: false };
+      setMessages([...messages, newMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
     }
 
-    // "End" 또는 "Thank you"가 입력되면 모달 열기
-    if (text.trim().toLowerCase() === 'end' || text.trim().toLowerCase() === 'thank you') {
-      openModal();
-    }
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-
-  const handleConfirm = () => {
-    navigate('/');
+    // 입력 필드 비우기
+    setInputText('');
   };
 
   return (
@@ -106,18 +94,19 @@ function ChatPage() {
             borderRadius: '5px'
 
           }}
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              handleMessageSubmit(e.target.value);
-              e.target.value = ''; // 메시지 전송 후 입력 필드 비우기
+              handleMessageSubmit(inputText);
+              setInputText(''); // 메시지 전송 후 입력 필드 비우기
             }
           }}
         />
         <button
           onClick={() => {
-            const input = document.querySelector('input[type="text"]');
-            handleMessageSubmit(input.value);
-            input.value = ''; // 메시지 전송 후 입력 필드 비우기
+            handleMessageSubmit(inputText);
+            setInputText(''); // 메시지 전송 후 입력 필드 비우기
           }}
           style={{ marginTop: '10px',
                    width: '150px',
@@ -134,7 +123,7 @@ function ChatPage() {
       </div>
       <div className='end_chat' style={{textAlign: 'center'}}>
         <h3 style={{fontSize:'18px', color: 'red'}}>"End" 혹은 "Thank you" 라고 채팅을 입력하면 채팅이 자종으로 종료 됩니다.</h3>
-        <button type='submit' onClick={openModal} style={{ // 모달 열기 함수로 변경
+        <button type='submit' onClick={() => setIsOpen(true)} style={{ // 모달 열기 함수로 변경
           width: '150px',
           height: '50px',
           border: 'none',
@@ -179,7 +168,7 @@ function ChatPage() {
               textAlign: 'center'
             }}>레벨 등급: {level}</p> {/* 여기서 level은 사용자 레벨을 표시하는 변수 */}
             <div style={{textAlign: 'center'}}>
-            <button onClick={handleConfirm} style={{
+            <button onClick={() => navigate('/')} style={{
             padding: '10px 20px',
             backgroundColor: '#FF7F50',
             color: '#fff',

@@ -5,6 +5,7 @@ const api = function (type, options = {}) {
     check_email: [`/unique/email/${options.email}`, 'get'],
     login: ['/user/login', 'post'],
     getUserInfo: [`/user`, 'get'],
+    sendMessage: ['/api/sendMessage', 'post'], 
 
     // 마이페이지 채팅
     updateUserInfo: ['/user', 'patch'],

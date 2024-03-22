@@ -35,7 +35,7 @@ function EnglishStudyPage() {
     },
     title: {
       fontSize: '64px',
-      color: '#fff',
+      color: 'yellow',
       margin: '0',
       animation: isVisible ? 'fadeInTitle 1s ease' : '',
     },
@@ -138,12 +138,13 @@ function EnglishStudyPage() {
         <div className='box' style={{
           width: '70%',
           border: 'solid 3px #fff',
-          borderRadius: '30px'
+          borderRadius: '30px',
+
         }}>
           <h2 style={{color: '#fff', paddingLeft: '15px'}}>
             YouTube 영상으로 영어 대화
           </h2>
-          <p style={{color: '#fff', fontSize: '18px', paddingLeft: '15px'}}>
+          <p style={{color: '#fff', fontSize: '18px', paddingLeft: '15px', lineHeight: '25px'}}>
           사용자가 입력한 YouTube 영상 링크를 활용하여<br/>
           영어 대화를 생성합니다. <br/>
           사용자가 링크를 입력하면,<br/>
@@ -164,7 +165,7 @@ function EnglishStudyPage() {
           <h2 style={{color: '#fff', paddingLeft: '15px'}}>
           SERVICE
           </h2>
-          <p style={{color: '#fff', fontSize: '18px', paddingLeft: '15px'}}>
+          <p style={{color: '#fff', fontSize: '18px', paddingLeft: '15px', lineHeight: '25px'}}>
           Butterfly는 영어가 필요한<br/>
           모든 사람들에게영어공부가<br/>
           의무감이나 압박으로 느껴지지 않고<br/>
@@ -182,7 +183,7 @@ function EnglishStudyPage() {
           <h2 style={{color: '#fff', paddingLeft: '15px'}}>
           사용자 맞춤
           </h2>
-          <p style={{color: '#fff', fontSize: '18px', paddingLeft: '15px'}}>
+          <p style={{color: '#fff', fontSize: '18px', paddingLeft: '15px', lineHeight: '25px'}}>
          사용자 영어 실력에 따라<br/>
          AI가 판단을 하고 레벨이 조정됩니다<br/>
          보다 쉽고, 재미있게 영어를 배워보세요
