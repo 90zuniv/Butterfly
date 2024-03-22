@@ -23,8 +23,8 @@ function App() {
 
   return (
     <>
-    <Layout />
     <BrowserRouter>
+      <Layout />  
       <Routes>
         <Route path='/' element={<EnglishStudyPage />} />
         {/* <Route path="/auth" element={<AuthPageLayout />}> */}
