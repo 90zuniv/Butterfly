@@ -24,9 +24,8 @@ class Chatting(Base):
 class Content(Base):
     __tablename__ = "content"
     id = Column(Integer, primary_key=True, index=True)
-    content_id = Column(VARCHAR(50), nullable=False)
-    content_thumbnail = Column(VARCHAR(50), nullable=False)
-    chatting_id = Column(Integer,ForeignKey("chatting.id"))
+    content_id = Column(VARCHAR(505), nullable=False)
+    content_thumbnail = Column(VARCHAR(505), nullable=True)
 
 class Level_test(Base):
     __tablename__ = "level_test"

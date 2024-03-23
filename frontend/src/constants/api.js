@@ -7,6 +7,9 @@ const api = function (type, options = {}) {
     getUserInfo: [`/user`, 'get'],
     sendMessage: ['/api/sendMessage', 'post'], 
 
+    // 유튜브 링크 저장
+    createContent : ['/content/', 'post'],
+
     // 마이페이지 채팅
     updateUserInfo: ['/user', 'patch'],
     updatePassword: ['/user/password', 'patch'],
