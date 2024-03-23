@@ -68,13 +68,12 @@ class ChattingBase(BaseModel):
 
 class ContentBase(BaseModel):
     content_id : str
-    content_thumbnail : str
-    chatting_id : int
+    content_thumbnail : Optional[str] = None
 
-class ContentModel(ContentBase):
-    id : int
-    class Config:
-        from_attributes  = True
+# class ContentModel(ContentBase):
+#     id : int
+#     class Config:
+#         from_attributes  = True
 
 class TestModel(BaseModel):
     que_num : int
@@ -97,7 +96,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 
 
-@app.post("/content/", response_model=ContentModel)
+@app.post("/content/", response_model=ContentBase)
 async def create_youtube(content: ContentBase, db:db_dependency):
     db_content = models.Content(**content.dict())
     db.add(db_content)

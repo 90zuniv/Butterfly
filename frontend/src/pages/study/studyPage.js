@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import api from '../../constants/api';
+import apiRequest from '../../utils/axios';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 
@@ -12,7 +14,7 @@ function StudyPage() {
   const navigate = useNavigate();
   const totalVideos = 8; // 예시로 8개의 인기 영상을 가정
   const videosToShow = 4; // 한 번에 보여질 비디오 수
-
+  const [contentUrl, setContentUrl] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [showVideo, setShowVideo] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0); // 현재 슬라이드 인덱스
@@ -72,13 +74,21 @@ function StudyPage() {
     "손홍만 인터뷰"
   ];
 
-  const handleChange = (event) => {
-    setVideoUrl(event.target.value);
+  const handleChange = (e) => {
+    setVideoUrl(e.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     setShowVideo(true);
+    try{
+      await apiRequest.post('/content/', {content_id : videoUrl});    
+      console.log('비디오 URL 저장 성공:',);
+    } catch (error) {
+      console.error('비디오 URL 저장 실패:', error);
+    }
+    
   };
+  
 
   
 
