@@ -3,16 +3,17 @@ import './App.css';
 import EnglishStudyPage from "./pages/main/MainPage";
 import StudyPage from './pages/study/StudyPage';
 import ChatPage from './pages/chatAi/ChatPage';
-import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Switch  } from 'react-router-dom';
 import Test from "./pages/main/TestPage"
 import Layout from './components/Header'
-import AuthPageLayout from './pages/auth/AuthPageLayout'
+
 import SignupPage from './pages/auth/SignupPage'
 import LoginPage from './pages/auth/LoginPage'
 import MyPage from './pages/mypage/MyPage'
 import TestPage from './pages/study/TestPage'
-import Footer from './components/Footer'
 
+import { Provider } from 'react-redux';
+import store from './store';
 
 function App() {
   const [content, setContent] = useState([]);

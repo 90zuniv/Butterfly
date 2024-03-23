@@ -1,15 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import apiRequest from '../../utils/axios';
+
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 
 const MyPage = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  const [learningHistory, setLearningHistory] = useState([]);
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await apiRequest.get('/user');
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error('사용자 정보 불러오기 실패', error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
-    const fetchLearningHistory = () => {
-        // 여기서 학습 기록을 가져와서 반환하는 코드를 작성합니다.
-        // 실제로는 DB나 API로부터 데이터를 가져와야 합니다.
-        return ['1']; // 임시 데이터를 반환하도록 가정
-      };
-
-      const learningHistory = fetchLearningHistory();
+  useEffect(() => {
+    const fetchLearningHistory = async () => {
+      try {
+        const response = await apiRequest.get('/mypage/chatting/detail');
+        setLearningHistory(response.data);
+      } catch (error) {
+        console.error('학습 기록 또는 채팅 내역 불러오기 실패', error);
+      }
+    };
+    fetchLearningHistory();
+  }, []);
 
   return (
     <div className="my-page-container" style={{textAlign: 'center'}}>
