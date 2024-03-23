@@ -51,10 +51,15 @@ class UserCreate(BaseModel):
 class UserRead(BaseModel):
     id: int
     email: str
-    level: Optional[str] = None
+    level: Optional[int] = None
 
     class Config:
         from_attributes = True
+
+
+class UserUpdate(BaseModel):
+    email: Optional[str] = None
+    level: Optional[int] = None
 
 class LoginRequest(BaseModel):  # 로그인 요청을 위한 Pydantic 모델
     email: str
@@ -66,23 +71,26 @@ class ChattingBase(BaseModel):
     user_id : int
     date : int
 
+class ChattingUpdate(BaseModel):
+    chat: Optional[str] = None
+    date: Optional[int] = None
+
 class ContentBase(BaseModel):
     content_id : str
     content_thumbnail : Optional[str] = None
 
-# class ContentModel(ContentBase):
-#     id : int
-#     class Config:
-#         from_attributes  = True
+class ChattingUpdate(BaseModel):
+    chat: Optional[str] = None
+    date: Optional[int] = None
 
 class TestModel(BaseModel):
     que_num : int
     question : str
-    ops_1 : str
-    ops_2 : str
-    ops_3 : str
-    ops_4 : str
-    ops_5 : str
+    ops_1 : Optional[str] = None
+    ops_2 : Optional[str] = None
+    ops_3 : Optional[str] = None
+    ops_4 : Optional[str] = None
+    ops_5 : Optional[str] = None
     correct : str
 
 def get_db():
@@ -149,19 +157,43 @@ async def read_user(user_id: int, db:db_dependency):
     return user
 
 
-@app.get("/user/{user_id}/level_test", status_code=status.HTTP_200_OK)
-async def submit_level_test(user_id: int, answers: List[str], db: db_dependency):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not user:
+@app.patch("/user/{user_id}", response_model=UserRead)
+async def update_user(user_id: int, user_update: UserUpdate, db: Session = Depends(get_db)):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-
-    questions = db.query(models.Level_test).all()
-    if not questions:
-        raise HTTPException(status_code=404, detail="No questions found")
-
-    correct_answers = 0
-    for question, answer in zip(questions, answers):
-        if question.correct == answer:
-            correct_answers += 1
+    user_data = user_update.dict(exclude_unset=True)
+    for key, value in user_data.items():
+        setattr(db_user, key, value)
     db.commit()
-    return {"message": "Test submitted successfully", "level": user.level}
+    db.refresh(db_user)
+    return db_user
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @app.get("/user/{user_id}/level_test", status_code=status.HTTP_200_OK)
+# async def submit_level_test(user_id: int, answers: List[str], db: db_dependency):
+#     user = db.query(models.User).filter(models.User.id == user_id).first()
+#     if not user:
+#         raise HTTPException(status_code=404, detail="User not found")
+
+#     questions = db.query(models.Level_test).all()
+#     if not questions:
+#         raise HTTPException(status_code=404, detail="No questions found")
+
+#     correct_answers = 0
+#     for question, answer in zip(questions, answers):
+#         if question.correct == answer:
+#             correct_answers += 1
+#     db.commit()
+#     return {"message": "Test submitted successfully", "level": user.level}

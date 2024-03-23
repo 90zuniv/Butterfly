@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoggedIn } from '../actions/authActions';
 
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
 
+  const handleLogin = () => {
+    dispatch(setLoggedIn(true));
+    navigate("/StudyPage"); // 로그인 후 스터디페이지로 이동
+  };
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    dispatch(setLoggedIn(false));
+    navigate("/"); // 로그아웃 후 메인 페이지로 이동
   };
 
   const handleMyPage = () => {
     if (isLoggedIn) {
-      // My Page 이동 로직 추가
+      navigate("/mypage"); // 이미 로그인 상태이면 마이페이지로 이동
     } else {
       alert('로그인이 필요한 기능입니다.');
     }
@@ -31,7 +36,7 @@ const Header = () => {
           <>
             <img src="/img/MyPage.png" alt="My Page" style={{ width: '30px', height: '30px', marginRight: '10px', cursor: 'pointer' }} onClick={handleMyPage} />
             <img src="/img/study.png" alt="Study Page" style={{ width: '30px', height: '30px', marginRight: '10px', cursor: 'pointer' }} onClick={handleMyPage} />
-            <img src="/img/logout.png" alt="Logout" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={() => navigate("/logout")} />
+            <img src="/img/logout.png" alt="Logout" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={handleLogout} />
           </>
         ) : (
           <img src="/img/login.png" alt="Login" style={{ width: '30px', height: '30px', cursor: 'pointer' }} onClick={() => navigate("/login")} />

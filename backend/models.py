@@ -7,7 +7,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     email = Column(VARCHAR(50), unique=True, nullable=False)
     password = Column(VARCHAR(50), nullable=False)
-    level = Column(VARCHAR(10), nullable=True)
+    level = Column(Integer, nullable=True)
     # def verify_password(self, password:str):
     #     return hash.bcrypt.verify(password,self.password)
     
@@ -32,9 +32,9 @@ class Level_test(Base):
 
     que_num = Column(Integer, primary_key=True, index=True)
     question = Column(VARCHAR(50), nullable=False)
-    ops_1 = Column(VARCHAR(50), nullable=False)
-    ops_2 = Column(VARCHAR(50), nullable=False)
-    ops_3 = Column(VARCHAR(50), nullable=False)
-    ops_4 = Column(VARCHAR(50), nullable=False)
-    ops_5 = Column(VARCHAR(50), nullable=False)
+    ops_1 = Column(VARCHAR(50), nullable=True)
+    ops_2 = Column(VARCHAR(50), nullable=True)
+    ops_3 = Column(VARCHAR(50), nullable=True)
+    ops_4 = Column(VARCHAR(50), nullable=True)
+    ops_5 = Column(VARCHAR(50), nullable=True)
     correct = Column(VARCHAR(50), nullable=False)
