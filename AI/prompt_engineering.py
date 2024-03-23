@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 # text1, text2, text3 = preprocess()
 
 #테스트용
-scene_file= "caption_.txt"
+scene_file= "caption.txt"
 voice_manual_file= "text_manual_en.txt"
 voice_auto_file= "text_manual_ko.txt"
 

@@ -7,8 +7,11 @@ import os
 import torch
 from PIL import Image
 from ram.models import tag2text
+from ram.models import ram_plus
 from ram import get_transform
-from ram import inference_tag2text as inference
+from ram import inference_tag2text as t2tinference
+from ram import inference_ram as raminference
+from inference_ram_plus import ramplus
 
 
 def tagtotext(img_path, model_path):
@@ -19,7 +22,6 @@ def tagtotext(img_path, model_path):
     current_path= os.getcwd()
     img_path= os.path.join(current_path, img_path)
 
-    # model_path= 'C:/Users/201-24/nyj/Butterfly/AI/tag2text_swin_14m.pth'
     image_size= 384
 
     scenes = [file for file in os.listdir(img_path) if file.endswith('.jpg')]
@@ -44,6 +46,18 @@ def tagtotext(img_path, model_path):
     model.eval()
     model = model.to(device)
     transform = get_transform(image_size=image_size)
+
+
+
+########### ram 
+    # ramdevice = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    rammodel = ram_plus(pretrained= 'ram_plus_swin_large_14m.pth',
+                             image_size=image_size,
+                             vit='swin_l')
+    
+    rammodel.eval()
+    rammodel = rammodel.to(device)
+    # transform = get_transform(image_size=image_size)
     
 
     # print('tag_model load success')
@@ -53,21 +67,27 @@ def tagtotext(img_path, model_path):
         print(cap)
         #######load model
 
-        # custom_tags = "cat"
-
         image = transform(Image.open(os.path.join(img_path, cap))).unsqueeze(0).to(device)
         # image = transform(Image.open(cap)).unsqueeze(0).to(device)
 
-        specified_tags= ""
+        # specified_tags= "cat,dog"
+        # specified_tags= ramplus(os.path.join(img_path, cap),
+        #                         'ram_plus_swin_large_14m.pth').replace(' |',',')
 
-        res = inference(image, model, specified_tags)
+        ramres = raminference(image, rammodel)
+        print("Image Tags: ", ramres[0])
+        specified_tags= ramres[0].replace(' |',',')
+
+
+
+        t2tres = t2tinference(image, model, specified_tags)
         # generate 메서드에 custom_tag_input을 넘깁니다.
         # 함수가 예측한 태그도 반환하길 원한다면 return_tag_predict=True로 지정하세요.
         # res = model.generate(image, tag_input=custom_tags, return_tag_predict=True)
-        print("Model Identified Tags: ", res[0])
-        print("User Specified Tags: ", res[1])
-        print("Image Caption: ", res[2])
-        caption+= res[2]
+        print("Model Identified Tags: ", t2tres[0])
+        print("User Specified Tags: ", t2tres[1])
+        print("Image Caption: ", t2tres[2])
+        caption+= t2tres[2]
         caption+= '.\n'
 
     with open('caption.txt', 'w+') as file:

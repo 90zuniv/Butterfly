@@ -34,8 +34,8 @@ def preprocess():
     # tag2text
     print('tag2text start')
     # sys.path.append('C:/Users/201-24/nyj/recognize-anything/')
-    import inference_tag2text_test
-    inference_tag2text_test.tagtotext(fr_path)
+    import inference_tag2text_test as tag2text_ram_test
+    tag2text_ram_test.tagtotext(fr_path)
     # terminal_command = f"python inference_tag2text_test.py"
     # os.system(terminal_command)
     print('tag2text success')

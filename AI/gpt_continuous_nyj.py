@@ -3,26 +3,26 @@ import json
 import os
 import re
 import dotenv
+from contents_analysis_final import contents_anal
+# from Butterfly.Level.re_leveling import js
+
 dotenv.load_dotenv()
 
+####### 영상분석 #######
+caption_txt, script_txt = contents_anal()
 
-from contents_analysis_final import contents_anal
-
-# 영상분석
-caption_txt, script_txt =contents_anal()
-
-# 프롬프팅
+####### 프롬프팅 #######
 openai_key= os.getenv('yj1_api')
-total_tokens_used = 0
 
-# 현재 대화 토큰 개수
-def estimate_token_count(text):
-    return len(text) // 4
+# total_tokens_used = 0
+# # 현재 대화 토큰 개수
+# def estimate_token_count(text):
+#     return len(text) // 4
 
-# 총 대화 토큰 갯수
-def update_total_tokens(estimated_tokens):
-    global total_tokens_used
-    total_tokens_used += estimated_tokens
+# # 총 대화 토큰 갯수
+# def update_total_tokens(estimated_tokens):
+#     global total_tokens_used
+#     total_tokens_used += estimated_tokens
 
 def is_korean(text):
     return bool(re.search("[가-힣]", text))
@@ -39,8 +39,8 @@ def translate_text(text, target_language, model="gpt-3.5-turbo-0125"):
     )
 
     translated_text = response.choices[0].text.strip()
-    estimated_tokens = estimate_token_count(translation_prompt + translated_text)
-    update_total_tokens(estimated_tokens)
+    # estimated_tokens = estimate_token_count(translation_prompt + translated_text)
+    # update_total_tokens(estimated_tokens)
 
     return translated_text
 
@@ -63,8 +63,8 @@ def chat_with_gpt(messages, model="gpt-4-0125-preview", stop_sequences=None):
     print(response_text)
 
     messages.append({"role": "assistant", "content": response_text})
-    estimated_tokens = estimate_token_count(response_text)
-    update_total_tokens(estimated_tokens)
+    # estimated_tokens = estimate_token_count(response_text)
+    # update_total_tokens(estimated_tokens)
 
     return response_text, messages
 
@@ -493,9 +493,9 @@ select_level = input(f'Choose the type of level you want.\n{level.keys()}')
 
 system= f"""
         You are a teacher who understands the content of the three texts below and start the conversation about their content or plot.
-        <First text>: {text1}
-        <Second text>: {text2}
-        <Third text>: {text3}
+        <First text>: {caption_txt}
+        <Second text>: {script_txt}
+        <Third text>: {caption_txt}
         
         1. These three texts are all about one content.
         2. Combine the three texts to understand what plot and content they have.
@@ -548,11 +548,10 @@ while True:
 messages= messages[1:]
 json_data= json.dumps(messages, indent= 4)
 
-# json파일 변환
-# with open('chatting.json','w') as f:
-#     f.write(json_data)
+# json_data 는 str형태?
+# 사용자 대화 수준 재측정
+# js(json_data)
 
 
-
-print(f"Total estimated tokens used so far: {total_tokens_used}")
+# print(f"Total estimated tokens used so far: {total_tokens_used}")
 
