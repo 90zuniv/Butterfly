@@ -13,7 +13,7 @@ import MyPage from './pages/mypage/MyPage'
 import TestPage from './pages/study/TestPage'
 
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux/store';
 
 function App() {
   const [content, setContent] = useState([]);

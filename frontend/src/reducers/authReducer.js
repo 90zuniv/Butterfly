@@ -1,20 +1,25 @@
 // src/reducers/authReducer.js
-import { SET_LOGGED_IN } from "../actions/types";
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  isLoggedIn: false,
-};
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    isLoggedIn: false,
+    user: null, // 사용자 정보를 저장할 상태 추가
+  },
+  reducers: {
+    setLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
+      state.user = action.payload.user; // 사용자 정보 업데이트
+    },
+    logout: (state) => { // 로그아웃 처리를 위한 reducer 추가
+      state.isLoggedIn = false;
+      state.user = null;
+    },
+  },
+});
 
-const authReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_LOGGED_IN:
-      return {
-        ...state,
-        isLoggedIn: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export const { setLoggedIn } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
-export default authReducer;
+export default authSlice.reducer;

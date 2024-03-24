@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import apiRequest from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function ChatPage() {
   const [messages, setMessages] = useState([]);
@@ -9,6 +10,7 @@ function ChatPage() {
   const [level, setLevel] = useState('A1');
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.auth.user?.id);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -18,23 +20,28 @@ function ChatPage() {
     scrollToBottom();
   }, [messages]);
 
-  const handleMessageSubmit = async (text) => {
-    if (text.trim() === '') return; // 빈 메시지 전송 방지
+  const handleMessageSubmit = async (e) => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    if (inputText.trim() === '') return;
 
     try {
-      const response = await axios.post('/api/sendMessage', {
-        text: inputText // 사용자가 입력한 메시지
+      await apiRequest.post('http://localhost:8000/chatting/', {
+        chat: inputText,
+        user_id: userId,        
+        date: new Date().toISOString()
+        
       });
-
-      // 응답으로 받은 메시지를 화면에 표시
-      const newMessage = { text: response.data, fromUser: false };
-      setMessages([...messages, newMessage]);
+      console.log(userId)
+      // 성공적으로 메시지를 보낸 후에는 메시지 목록 업데이트
+      setMessages([...messages, { text: inputText, fromUser: true }]);
+  
+      setInputText('');
+      scrollToBottom();
     } catch (error) {
       console.error('Error sending message:', error);
     }
-
-    // 입력 필드 비우기
-    setInputText('');
   };
 
   return (
@@ -109,13 +116,13 @@ function ChatPage() {
             setInputText(''); // 메시지 전송 후 입력 필드 비우기
           }}
           style={{ marginTop: '10px',
-                   width: '150px',
-                   padding: '5px',
-                   backgroundColor: '#FF7F50',
-                   border: 'none',
-                   borderRadius: '5px',
-                   height: '50px',
-                   fontSize: '18px',
+                  width: '150px',
+                  padding: '5px',
+                  backgroundColor: '#FF7F50',
+                  border: 'none',
+                  borderRadius: '5px',
+                  height: '50px',
+                  fontSize: '18px',
                    color: '#ffffff' }} // 수정된 너비
         >
           Send
