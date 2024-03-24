@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import apiRequest from '../../utils/axios';
 import api from '../../constants/api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setLoggedIn } from '../../reducers/authReducer';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,7 +36,8 @@ const Login = () => {
           password,
         },
       });
-      console.log('로그인 성공', response.data);
+      dispatch(setLoggedIn(true));
+      // dispatch(setUserInfo(response.data.user));
       navigate('/StudyPage');
       // 로그인 성공 후 처리 (예: 사용자 정보 페이지로 이동)
     } catch (error) {

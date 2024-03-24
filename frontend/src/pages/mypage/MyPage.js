@@ -1,35 +1,53 @@
 import React, {useEffect, useState} from 'react';
 import apiRequest from '../../utils/axios';
-
+import { useSelector } from 'react-redux';
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 
 const MyPage = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const [learningHistory, setLearningHistory] = useState([]);
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await apiRequest.get('/user');
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error('사용자 정보 불러오기 실패', error);
-      }
-    };
-    fetchUserInfo();
-  }, []);
+  const userId = useSelector((state) => state.auth.user?.id);
+  const [chattingHistory, setChattingHistory] = useState([]);
+
+  
+  
 
   useEffect(() => {
-    const fetchLearningHistory = async () => {
-      try {
-        const response = await apiRequest.get('/mypage/chatting/detail');
-        setLearningHistory(response.data);
-      } catch (error) {
-        console.error('학습 기록 또는 채팅 내역 불러오기 실패', error);
+    const fetchChattingHistory = async () => {
+      if (userId) {
+        try {
+          const response = await apiRequest.get(`http://localhost:8000/user/${userId}/chatting`);
+          setChattingHistory(response.data);
+        } catch (error) {
+          console.error('채팅 내역 불러오기 실패', error);
+        }
       }
     };
-    fetchLearningHistory();
-  }, []);
+
+    fetchChattingHistory();
+  }, [userId]);
+
+  // useEffect(() => {
+  //   const fetchLearningHistory = async () => {
+  //     try {
+  //       const response = await apiRequest.get('/mypage/chatting/detail');
+  //       setLearningHistory(response.data);
+  //     } catch (error) {
+  //       console.error('학습 기록 또는 채팅 내역 불러오기 실패', error);
+  //     }
+  //   };
+  //   fetchLearningHistory();
+  // }, []);
+  // useEffect(() => {
+  //   const fetchLearningHistory = async () => {
+  //     try {
+  //       const response = await apiRequest.get('/mypage/chatting/detail');
+  //       setChattingHistory(response.data);
+  //     } catch (error) {
+  //       console.error('학습 기록 또는 채팅 내역 불러오기 실패', error);
+  //     }
+  //   };
+  //   fetchLearningHistory();
+  // }, []);
 
   return (
     <div className="my-page-container" style={{textAlign: 'center'}}>
@@ -125,11 +143,23 @@ const MyPage = () => {
           <p>등급 표시</p>
         </div>
         </div>
-        {learningHistory.length > 0 ? (
+        {chattingHistory.length > 0 ? (
+        <div>
+          {chattingHistory.map((chat, index) => (
+            <div key={index}>
+              <p>{chat.date}</p>
+              <p>{chat.chat}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>채팅 내역이 없습니다.</p>
+      )}
+        {/* {learningHistory.length > 0 ? (
           <div className="learning-history">
             <h3 style={{textAlign: 'center', padding: '20px'}}>학습기록</h3>
             <div className="history-box">
-              {/* 최대 3개의 학습 기록 */}
+              
               {learningHistory.map((record, index) => (
                 <div key={index} className="history-item">{record}</div>
               ))}
@@ -155,7 +185,7 @@ const MyPage = () => {
             <h3 style={{fontSize: '25px'}}>학습한 기록이 없습니다.</h3>
             </div>
           </div>
-        )}
+        )} */}
             <div className='grade-info' id='test_btn'>
           <button className='test_btn' style={{ width: '250px', height: '50px' , border:'none', borderRadius: '5px', fontSize: '18px', color: '#fff', backgroundColor: '#FF7F50', cursor: 'pointer'}}>테스트 보기</button>
           </div>
