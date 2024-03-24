@@ -61,9 +61,7 @@ def tagtotext(img_path, model_path):
         specified_tags= ""
 
         res = inference(image, model, specified_tags)
-        # generate 메서드에 custom_tag_input을 넘깁니다.
-        # 함수가 예측한 태그도 반환하길 원한다면 return_tag_predict=True로 지정하세요.
-        # res = model.generate(image, tag_input=custom_tags, return_tag_predict=True)
+        
         print("Model Identified Tags: ", res[0])
         print("User Specified Tags: ", res[1])
         print("Image Caption: ", res[2])
