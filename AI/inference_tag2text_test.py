@@ -79,6 +79,6 @@ def tagtotext(img_path, model_path):
 
 
 
-tagtotext('output/frame/', 'tag2text_swin_14m_1.pth')
+# tagtotext('output/frame/', 'tag2text_swin_14m_1.pth')
 
 # print(os.getcwd())

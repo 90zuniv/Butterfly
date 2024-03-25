@@ -15,7 +15,7 @@ def sc(input_path, output_path):
     # scenedetect 초기화
     scene_manager = SceneManager()
     # scene_manager.add_detector(scenedetect.detectors.ContentDetector())
-    scene_manager.add_detector(ContentDetector(threshold= 10))
+    scene_manager.add_detector(ContentDetector(threshold= 20))
 
     # 장면 감지 프로세스 실행
     scene_manager.detect_scenes(video)
