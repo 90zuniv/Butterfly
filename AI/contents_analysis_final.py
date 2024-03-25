@@ -19,24 +19,25 @@ DB_NAME = os.getenv('DB_NAME')
 
 
 
-conn = pymysql.connect(host=HOST, user=USER_NAME, password=PASSWORD,
-                        db=DB_NAME, charset='utf8')
-cur= conn.cursor()
-cur.execute("SELECT content_id FROM content ORDER BY id DESC LIMIT 1")
+# conn = pymysql.connect(host=HOST, user=USER_NAME, password=PASSWORD,
+#                         db=DB_NAME, charset='utf8')
+# cur= conn.cursor()
+# cur.execute("SELECT content_id FROM content ORDER BY id DESC LIMIT 1")
 
-row = cur.fetchall()
+# row = cur.fetchall()
 
-# ------------------------------------------------------------------------------------
 # cur.execute("CREATE TABLE contents (chat_id int, thumbnail varchar(50), content_id varchar(50)")
+# ------------------------------------------------------------------------------------
 
 
 def contents_anal():
-    youtube_url= row[0][0]
+    # youtube_url= row[0][0]
+    youtube_url= input('영상링크 입력 -> ')
     start= time.time()
 
     yt_path= './output/yt_dlp/'
     fr_path= './output/frame/'
-    t2t_path= 'tag2text_swin_14m_1.pth'
+    t2t_path= 'tag2text_swin_14m.pth'
 
     # 기존 파일 및 폴더 지우기
     if os.path.exists(yt_path):
@@ -78,6 +79,6 @@ def contents_anal():
     
     return caption_txt, script_txt
 
-a,b= contents_anal()
-print('scene',a)
-print('script',b)
+# a,b= contents_anal()
+# print('scene',a)
+# print('script',b)

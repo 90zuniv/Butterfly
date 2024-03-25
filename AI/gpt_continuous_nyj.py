@@ -548,6 +548,8 @@ while True:
 messages= messages[1:]
 json_data= json.dumps(messages, indent= 4)
 
+print('전체 ai 끝')
+
 # json_data 는 str형태?
 # 사용자 대화 수준 재측정
 # js(json_data)
