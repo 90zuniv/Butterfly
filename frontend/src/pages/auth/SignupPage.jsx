@@ -26,7 +26,7 @@ function Signup() {
   return (
 
 <div style={{
-  backgroundImage: `url('/img/LoginBackground.png')`, /* 배경 이미지 설정 */
+  backgroundImage: "url('/img/LoginBackground.png')", /* 배경 이미지 설정 */
   backgroundSize: 'cover', /* 화면에 꽉 차게 배경 이미지를 조정 */
   backgroundPosition: 'center', /* 배경 이미지를 가운데 정렬 */
   width: '100%',
