@@ -19,7 +19,7 @@ function EnglishStudyPage() {
     container: {
       backgroundImage: "url('/img/newworkcity.png')",
       backgroundSize: 'cover',
-      height: '100vh',
+      height: '110vh',
       overflow: 'hidden',
       backgroundColor: 'rgb(246, 241, 235)',
       padding: '10px',
