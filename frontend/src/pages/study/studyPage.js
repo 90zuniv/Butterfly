@@ -10,6 +10,7 @@ import apiRequest from '../../utils/axios';
 const playIconUrl = "/img/Playback.png";
 const closeButtonUrl = "/img/CloseBtn.png";
 function StudyPage() {
+  const [chatButtonText, setChatButtonText] = useState("영상 분석 중입니다");
   
   const navigate = useNavigate();
   const totalVideos = 8; // 예시로 8개의 인기 영상을 가정
@@ -21,20 +22,14 @@ function StudyPage() {
   const [showModal, setShowModal] = useState(false);
   const [showChatButton, setShowChatButton] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(true);
-  
 
   useEffect(() => {
-    setShowModal(true);
-    // 5초 후에 채팅 버튼으로 변경
     const timer = setTimeout(() => {
-      setShowChatButton(true);
-    }, 5000);
+      setChatButtonText("채팅하러 가기");
+    }, 10000); // 10초 후에 버튼 텍스트 변경
     return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
   }, []);
-
-  useEffect(() => {
-    setShowChatButton(!isAnalyzing); // 영상 분석중일 때는 채팅 버튼을 비활성화
-  }, [isAnalyzing]);
+  
 
   useEffect(() => {
     // 페이지가 로드되었을 때 모달창을 보이도록 설정
