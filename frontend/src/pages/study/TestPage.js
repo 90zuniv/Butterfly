@@ -4,6 +4,16 @@ import api from '../../constants/api';
 import { useNavigate } from 'react-router-dom';
 const TestPage = () => {
   // 가상으로 가져온 문제 및 선택지
+  const [isOpen, setIsOpen] = useState(false);
+  const [level, setLevel] = useState('B1');
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   const questions = [
     {
       id: 1,
@@ -235,9 +245,55 @@ const handleSubmit = async () => {
         </div>
       ))}
       <div style={progressBarStyle}></div>
-      <button onClick={handleSubmit} style={{ marginTop: '20px', fontSize: '20px', padding: '10px 20px', cursor: 'pointer' }}>
+      <button onClick={openModal} style={{ marginTop: '20px', fontSize: '20px', padding: '10px 20px', cursor: 'pointer' }}>
         제출
       </button>
+      {isOpen && (
+        <div className="modal" style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)' 
+        }}>
+          <div className="modal-content" style={{
+            width: '90%',
+            maxWidth: '600px',
+            backgroundColor: '#fff',
+            padding: '20px',
+            borderRadius: '10px'
+          }}>
+            <p style={{
+              textAlign: 'center',
+              fontSize: '23px',
+              color: '#111'
+            }}>채팅이 종료되었습니다.</p>
+            <div className='end_chat' style={{textAlign: 'center'}}>
+            <img src="/img/end.png" alt="채팅 종료" style={{width: '250px'}}/>
+            </div>
+            <p style={{
+              fontSize: '18px',
+              color: '#111',
+              textAlign: 'center'
+            }}>레벨 등급: {level}</p> {/* 여기서 level은 사용자 레벨을 표시하는 변수 */}
+            <div style={{textAlign: 'center'}}>
+            <button onClick={handleSubmit} style={{
+            padding: '10px 20px',
+            backgroundColor: '#FF7F50',
+            color: '#fff',
+            borderRadius: '5px',
+            border: 'none',
+            cursor: 'pointer',
+            marginTop: '20px'
+          }}>확인</button>
+          </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
