@@ -7,10 +7,19 @@ function ChatPage() {
   const [level, setLevel] = useState('A1');
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
+  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    // 초기 메시지 추가
+    const initialMessage = { text: "Hello! How was it?", fromUser: false };
+    setMessages([initialMessage]);
+    // 스크롤을 최하단으로 이동시키는 함수를 호출합니다.
+    scrollToBottom();
+  }, []); 
 
   useEffect(() => {
     scrollToBottom();
@@ -22,10 +31,73 @@ function ChatPage() {
     const newMessage = { text, fromUser: true };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-    if (text.trim() === 'Hello! How was it?') {
+    // if (text.trim() === 'It will effect my decision') {
+    //   // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+    //   setTimeout(() => {
+    //     const replyMessage = { text: "It seems like there's a small mistake in your sentence. You should say, 'It will affect my decision.' The word 'affect' is the correct verb to use when talking about something influencing something else. Now, how has your day been so far?", fromUser: false };
+    //     setMessages((prevMessages) => [...prevMessages, replyMessage]);
+    //   }, 1000);
+    // }
+    // if (text.trim() === 'I bought a leather Italian beautiful belt') {
+    //   // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+    //   setTimeout(() => {
+    //     const replyMessage = { text: "You've got a great sentence there, but let's adjust the order of the adjectives to match standard English conventions. It should be, 'I bought a beautiful Italian leather belt.' Remember, the order of adjectives in English typically follows the pattern of opinion-size-age-shape-color-origin-material-purpose. How do you like your new belt?", fromUser: false };
+    //     setMessages((prevMessages) => [...prevMessages, replyMessage]);
+    //   }, 1000);
+    // // }
+    // if (text.trim() === 'fine') {
+    //   // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+    //   setTimeout(() => {
+    //     const replyMessage = { text: "I'm glad to hear you're doing fine! Today, we're going to talk about a very interesting video that includes several plots. The first part of the video shows various scenes of people in different settings, such as a woman at a desk with a microphone, a man at an office desk, and several scenes of a man singing into a microphone. It also includes scenes from a restaurant with green walls and people wearing green hats and shirts, which seems to create a vibrant and lively atmosphere. What do you think the significance of the color green in these scenes might be?", fromUser: false };
+    //     setMessages((prevMessages) => [...prevMessages, replyMessage]);
+    //   }, 1000);
+    // }
+    // if (text.trim() === 'It will effect my decision') {
+    //   // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+    //   setTimeout(() => {
+    //     const replyMessage = { text: "It will affect my decision. Could you share how the color green might influence your decision or feelings towards these scenes?", fromUser: false };
+    //     setMessages((prevMessages) => [...prevMessages, replyMessage]);
+    //   }, 1000);
+    // }
+    // if (text.trim() === 'He admits to have done it himself') {
+    //   // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+    //   setTimeout(() => {
+    //     const replyMessage = { text: "He admits to having done it himself. How do you think this admission impacts the story or the character's development?", fromUser: false };
+    //     setMessages((prevMessages) => [...prevMessages, replyMessage]);
+    //   }, 1000);
+    // }
+    if (text.trim() === 'It was good') {
       // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
       setTimeout(() => {
-        const replyMessage = { text: "fine I'm glad to hear you're doing fine! Let's dive into our topic for today. We'll be discussing a video that features a variety of scenes, including a man singing in front of a microphone, a young man in a green hat and shirt looking at a pizza, and a young woman using her cell phone, among others. It seems to capture moments from different people's lives, possibly highlighting the diversity of experiences and emotions. What do you think could be the common thread connecting these scenes?", fromUser: false };
+        const replyMessage = { text: "It was good? That's great to hear! Let's dive into our discussion for today. We'll start with the first plot summary, which revolves around various scenes involving individuals in different settings, such as a woman at a desk with a microphone, a man at an office desk, and several instances of a man singing into a microphone. There's also a significant focus on a young man wearing a green hat and shirt, looking at a pizza, and various other scenes that depict daily life and work in a restaurant. This plot seems to weave together moments of work, passion, and everyday occurrences. What do you think the significance of the color green and the repeated scenes of singing into a microphone might be in this context?", fromUser: false };
+        setMessages((prevMessages) => [...prevMessages, replyMessage]);
+      }, 1000);
+    }
+    if (text.trim() === 'He admits having done it himself') {
+      // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+      setTimeout(() => {
+        const replyMessage = { text: "He admits having done it himself? That's an interesting observation. It seems like you're touching on themes of responsibility and confession. In the context of our video summary, where various characters are depicted in their daily lives and work, admitting to having done something oneself could symbolize personal growth or accountability. How do you think this theme of personal responsibility plays out in the everyday scenarios depicted, such as the young man with the green hat and shirt or the individuals singing into the microphone?", fromUser: false };
+        setMessages((prevMessages) => [...prevMessages, replyMessage]);
+      }, 1000);
+    }
+    if (text.trim() === 'It will affect my decision') {
+      // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+      setTimeout(() => {
+        const replyMessage = { text: "It will affect my decision? Certainly, the idea of actions and decisions affecting outcomes is a crucial theme. Considering the plots we've discussed, especially the second one where a sandwich store worker develops feelings for a customer, decisions and their impacts are central. The worker's decision to pretend not to remember the customer's preferences just to extend their interaction is quite telling. How do you think the concept of decisions shaping our lives is reflected in these narratives, particularly in the context of personal relationships and work environments?", fromUser: false };
+        setMessages((prevMessages) => [...prevMessages, replyMessage]);
+      }, 1000);
+    }
+    if (text.trim() === 'Fine') {
+      // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+      setTimeout(() => {
+        const replyMessage = { text: "I'm glad to hear you're doing fine! Today, we're going to discuss a video that has two main plots. The first plot revolves around various scenes involving a man singing into a microphone in different settings, and a young man wearing a green hat and shirt looking at a pizza, among other scenes. It paints a picture of performance and daily life. The second plot is a touching story shared on a radio show by DJ Yong, about a part-timer at a barbecue restaurant and another story about a young man working in a sandwich store, developing feelings for a regular customer. Both stories explore themes of misunderstanding, unrequited love, and the small moments that make up our daily lives. How do you think these plots relate to each other, and what do you feel about the stories shared by DJ Yong?", fromUser: false };
+        setMessages((prevMessages) => [...prevMessages, replyMessage]);
+      }, 1000);
+    }
+    if (text.trim() === 'I bought a leather Italian beautiful belt') {
+      // 사용자가 'Hi~!'를 보낸 경우에만 자동으로 답장 보내기
+      setTimeout(() => {
+        const replyMessage = { text: "I bought a...? It sounds like you've made a lovely purchase! Italian leather is renowned for its quality and beauty. How does this new belt fit into your wardrobe, and what inspired you to choose this particular item?", fromUser: false };
         setMessages((prevMessages) => [...prevMessages, replyMessage]);
       }, 1000);
     }
@@ -120,14 +192,14 @@ function ChatPage() {
             input.value = ''; // 메시지 전송 후 입력 필드 비우기
           }}
           style={{ marginTop: '10px',
-                   width: '150px',
-                   padding: '5px',
-                   backgroundColor: '#FF7F50',
-                   border: 'none',
-                   borderRadius: '5px',
-                   height: '50px',
-                   fontSize: '18px',
-                   color: '#ffffff' }} // 수정된 너비
+                  width: '150px',
+                  padding: '5px',
+                  backgroundColor: '#FF7F50',
+                  border: 'none',
+                  borderRadius: '5px',
+                  height: '50px',
+                  fontSize: '18px',
+                  color: '#ffffff' }} // 수정된 너비
         >
           Send
         </button>
@@ -194,6 +266,7 @@ function ChatPage() {
       )}
     </div>
   );
+  
 }
 
 export default ChatPage;

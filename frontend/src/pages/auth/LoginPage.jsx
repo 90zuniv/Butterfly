@@ -73,14 +73,6 @@ const Login = () => {
         {/* Sign in과 Sign up */}
         <div style={{ marginBottom: '20px', color: '#ffffff', fontSize: '24px', display: 'flex', position: 'absolute', top: '-40px', right: '10px' }}>
           <div 
-            style={{ marginRight: '20px', color: '#ffffff', fontSize: '24px', cursor: 'pointer', transition: 'color 0.3s', }}
-            onClick={() => navigate('/login')} /* Sign in 클릭 시 로그인 페이지로 이동 */
-            onMouseEnter={(e) => e.target.style.color = '#FF7F50'} /* 호버 시 폰트 컬러 변경 */
-            onMouseLeave={(e) => e.target.style.color = '#ffffff'} /* 호버 빠져나오면 원래 폰트 컬러로 변경 */
-          >
-            Sign in
-          </div>
-          <div 
             style={{ color: '#ffffff', fontSize: '24px', cursor: 'pointer', transition: 'color 0.3s', }}
             onClick={() => navigate('/signup')} /* Sign up 클릭 시 회원가입 페이지로 이동 */
             onMouseEnter={(e) => e.target.style.color = '#FF7F50'} /* 호버 시 폰트 컬러 변경 */
