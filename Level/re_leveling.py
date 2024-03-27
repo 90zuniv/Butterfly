@@ -24,12 +24,14 @@ def js(json_str):
     levels, scores = model.predict_decode(user_content)
     
     print('levels', levels)
-    print('scores',scores)
+    for i in scores[0]:
+        print(i," : " ,scores[0][i])
+    # print('scores',scores)
 
 
 
 
 
-# print('-------------load-------------\n')
-# js(chatting)
+print('-------------load-------------\n')
+js(chatting)
             
