@@ -4,7 +4,7 @@ import api from '../../constants/api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setLoggedIn } from '../../reducers/authReducer';
-
+import Loginbackground from "../../assets/Loginbackground.png"
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -50,7 +50,7 @@ const Login = () => {
   return (
     
     <div style={{
-      backgroundImage: "url('/img/LoginBackground.png')", /* 배경 이미지 설정 */
+      backgroundImage: `url(${Loginbackground})`, /* 배경 이미지 설정 */
       backgroundSize: 'cover', /* 화면에 꽉 차게 배경 이미지를 조정 */
       backgroundPosition: 'center', /* 배경 이미지를 가운데 정렬 */
       width: '100%',
